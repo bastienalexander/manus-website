@@ -362,10 +362,12 @@
       /* Frame: left-anchor so it bleeds off-screen right (per Figma mobile design).
          Keep full desktop width so frame proportions are preserved. */
       .sticky-frame {
-        left: 20px;
+        /* Frame op mobile: links buiten beeld zodat lijn tekst niet snijdt,
+           hoogte past in viewport, breedte volgt aspect ratio (1407:707) */
+        left: 6px;
         transform: none;
         max-width: none;
-        height: calc(100svh - var(--nav-height) - 40px);
+        height: calc(100svh - var(--nav-height) - 20px);
         width: auto;
       }
       .sticky-frame svg {
