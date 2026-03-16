@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manus</title>
+  <style>
+    /*
+      FONT STRATEGY
+      Neue Haas Grotesk Display Pro is an Adobe Fonts (Typekit) font.
+      To use it: log in to fonts.adobe.com, add it to a Web Project,
+      and replace the <link> tag below with your Typekit embed code, e.g.:
+        <link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css">
+      Then the CSS variable below will pick it up automatically.
+
+      Fallback: Helvetica Neue — the closest system font to Neue Haas Grotesk,
+      same proportions, cleaner than plain Helvetica in Safari.
+    */
+
+    :root {
+      --color-bg: #eeeeee;
+      --color-bg-footer: #f9f8f7;
+      --color-text: #000000;
+      --color-text-dark: #111827;
+      --color-white: #ffffff;
+
+      /* Neue Haas Grotesk Display Pro (Adobe Fonts/Typekit) → Helvetica Neue fallback */
+      --font-primary: 'neue-haas-grotesk-display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+      --fw-light: 300;
+      --fw-roman: 400;
+      --fw-medium: 500;
+
+      --fs-16: 16px;
+      --fs-20: 20px;
+      --fs-24: 24px;
+      --fs-32: 32px;
+      --fs-48: 48px;
+
+      --lh-24: 24px;
+      --lh-32: 32px;
+      --lh-48: 48px;
+
+      --max-width: 1440px;
+      --nav-height: 69px;
+      --frame-top: 76px; /* frame starts exactly 76px from top of viewport */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-primary);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    p { margin: 0; }
+
+    /* ── Page wrapper ── */
+    .page-wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* ── STICKY FRAME OVERLAY ──────────────────────────────────────────
+       top: 76px — sits 76px from the top of the viewport.
+       Desktop: centered, grows with viewport (clamp min 1440px → 120vw).
+       Mobile:  left: 2px margin, full 1440px width so it bleeds right.
+       mix-blend-mode: difference → white SVG lines invert what's behind:
+         light grey bg  → black lines
+         dark photo     → white lines
+    ──────────────────────────────────────────────────────────────────── */
+    .sticky-frame {
+      position: fixed;
+      top: var(--frame-top); /* exactly 76px from top of viewport */
+      left: 50%;
+      transform: translateX(-50%);
+      /* Always slightly narrower than the viewport so there's a visible margin
+         on both sides. calc(100vw - 80px) gives 40px breathing room each side.
+         Capped at 1440px so it never exceeds the page-wrapper on large screens. */
+      width: min(calc(100vw - 80px), var(--max-width));
+      z-index: 200;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    .sticky-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      mix-blend-mode: difference;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--nav-height);
+      padding: 10px 40px;
+      mix-blend-mode: difference;
+      width: 100%;
+    }
+    .nav__logo img { width: 113px; height: 20px; object-fit: contain; }
+    .nav__list { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav__item a {
+      padding: 10px;
+      font-size: var(--fs-24);
+      font-weight: var(--fw-roman);
+      color: var(--color-white);
+      white-space: nowrap;
+      line-height: normal;
+    }
+
+    /* Hamburger */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 28px;
+      height: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .nav__hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-white);
+      transition: all 0.3s ease;
+    }
+    .nav__hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .nav__hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav__hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    .nav__mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: var(--nav-height);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: var(--max-width);
+      background-color: #111;
+      z-index: 149;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 40px;
+    }
+    .nav__mobile-menu.is-open { max-height: 400px; padding: 20px 40px; }
+    .nav__mobile-menu a {
+      font-size: var(--fs-24);
+      color: var(--color-white);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 138px;
+      min-height: 912px;
+      padding: 40px 80px;
+    }
+    .hero__text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero__text-inner { padding: 20px 0; }
+    .hero__heading {
+      font-size: var(--fs-48);
+      font-weight: var(--fw-roman);
+      line-height: var(--lh-48);
+      width: 518px;
+    }
+    .hero__arrow { width: 66.554px; height: 71.188px; flex-shrink: 0; margin-top: 4px; }
+    .hero__image {
+      position: relative;
+      width: 624px;
+      height: 832px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .hero__image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Content 2 ── */
+    .content-2 {
+      display: flex;
+      gap: 32px;
+      min-height: 1056px;
+      align-items: flex-start;
+      padding: 60px 80px;
+    }
+    .content-2__image {
+      position: relative;
+      width: 624px;
+      height: 936px;
+      flex-shrink: 0;
+    }
+    .content-2__image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .content-2__text {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      flex-shrink: 0;
+      width: 408px;
+    }
+
+    /* ── Text project ── */
+    .text-project { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+    .text-project__label { font-size: var(--fs-20); font-weight: var(--fw-light); line-height: normal; }
+    .text-project__body { font-size: var(--fs-32); font-weight: var(--fw-roman); line-height: var(--lh-32); }
+    .text-project__body p + p { margin-top: 20px; }
+    .text-project--right { text-align: right; }
+
+    /* ── Arrow icons ── */
+    .arrow-icon { width: 35.946px; height: 33.629px; flex-shrink: 0; }
+    .arrow-icon img { width: 100%; height: 100%; }
+    .arrow-icon--large { width: 71.894px; height: 67.259px; flex-shrink: 0; }
+
+    /* ── Quote section ── */
+    .quote-section { display: flex; align-items: center; min-height: 344px; padding: 80px; }
+    .quote-section__flex { display: flex; gap: 66px; align-items: flex-end; width: 100%; }
+    .quote-section__heading {
+      font-size: var(--fs-48);
+      font-weight: var(--fw-roman);
+      line-height: var(--lh-48);
+      flex: 1;
+    }
+
+    /* ── Content 3 ── */
+    .content-3 {
+      display: flex;
+      gap: 32px;
+      min-height: 748px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 60px 80px;
+    }
+    .content-3__text {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      align-items: flex-end;
+      flex-shrink: 0;
+      width: 408px;
+    }
+    .content-3__image {
+      position: relative;
+      width: 624px;
+      height: 628px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .content-3__image img {
+      position: absolute;
+      top: 0.32%;
+      left: 0;
+      width: 100%;
+      height: 99.36%;
+      object-fit: cover;
+    }
+
+    /* ── Four columns ── */
+    .four-col {
+      display: flex;
+      gap: 32px;
+      min-height: 473px;
+      align-items: flex-start;
+      padding: 100px 80px;
+    }
+    .four-col__item { display: flex; flex-direction: column; gap: 22px; flex: 1; }
+    .four-col__title { font-size: var(--fs-32); font-weight: var(--fw-medium); line-height: normal; }
+    .four-col__body { font-size: var(--fs-24); font-weight: var(--fw-roman); line-height: var(--lh-24); }
+
+    /* ── Content 4 ── */
+    .content-4 {
+      display: flex;
+      gap: 32px;
+      min-height: 1056px;
+      align-items: flex-start;
+      padding: 60px 80px;
+    }
+    .content-4__image {
+      position: relative;
+      width: 624px;
+      height: 936px;
+      flex-shrink: 0;
+    }
+    .content-4__image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .content-4__text { display: flex; flex-direction: column; gap: 22px; flex: 1; }
+
+    /* ── Footer — outside page-wrapper = full viewport width ── */
+    .footer {
+      background-color: var(--color-bg-footer);
+      padding: 64px 80px 24px;
+      width: 100%;
+    }
+    .footer__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .footer__brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-right: 96px;
+      width: 224px;
+      min-height: 176px;
+    }
+    .footer__logo img { width: 113px; height: 20px; object-fit: contain; }
+    .footer__icon { width: 73px; height: 37px; }
+    .footer__icon svg { width: 100%; height: 100%; }
+    .footer__col { display: flex; flex-direction: column; padding: 16px; width: 224px; }
+    .footer__col-heading { font-size: var(--fs-16); font-weight: var(--fw-medium); line-height: var(--lh-24); color: var(--color-text-dark); }
+    .footer__col-link { font-size: var(--fs-16); font-weight: var(--fw-roman); line-height: var(--lh-24); color: var(--color-text-dark); }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+
+    /* ── Tablet ≤ 1024px ── */
+    @media (max-width: 1024px) {
+      .nav__list { display: none; }
+      .nav__hamburger { display: flex; }
+      .nav__mobile-menu { display: flex; }
+
+      /* Frame: left-anchor so it bleeds off-screen right (per Figma mobile design).
+         Keep full desktop width so frame proportions are preserved. */
+      .sticky-frame {
+        left: 2px; /* 2px left margin on mobile — bleeds off-screen to the right */
+        transform: none;
+        width: var(--max-width); /* keep full 1440px so it bleeds right on mobile */
+        max-width: none;
+      }
+
+      .hero { flex-direction: column; min-height: auto; gap: 40px; padding: 40px; }
+      .hero__heading { width: 100%; font-size: 42px; line-height: 48px; }
+      /* Portrait image — keep tall aspect ratio as in design reference */
+      .hero__image { width: 100%; height: 75vw; min-height: 480px; }
+
+      .content-2 { flex-direction: column; min-height: auto; padding: 60px 40px; }
+      /* Portrait image on tablet/mobile */
+      .content-2__image { width: 100%; height: 120vw; min-height: 480px; max-height: 936px; }
+      .content-2__text { width: 100%; }
+
+      .quote-section { min-height: auto; padding: 60px 40px; }
+      .quote-section__flex { gap: 24px; flex-wrap: wrap; }
+      .quote-section__heading { font-size: 36px; line-height: 42px; }
+
+      .content-3 {
+        flex-direction: column-reverse;
+        min-height: auto;
+        justify-content: flex-start;
+        padding: 60px 40px;
+      }
+      .content-3__text { width: 100%; align-items: flex-start; }
+      .text-project--right { text-align: left; }
+      /* Portrait image */
+      .content-3__image { width: 100%; height: 100vw; min-height: 400px; max-height: 628px; }
+
+      .four-col { flex-wrap: wrap; min-height: auto; padding: 60px 40px; }
+      .four-col__item { flex: 0 0 calc(50% - 16px); }
+
+      .content-4 { flex-direction: column; min-height: auto; padding: 60px 40px; }
+      /* Portrait image */
+      .content-4__image { width: 100%; height: 120vw; min-height: 480px; max-height: 936px; }
+
+      .footer { padding: 48px 40px 24px; }
+      .footer__inner { flex-wrap: wrap; gap: 24px; }
+      .footer__brand { width: 100%; padding-right: 0; flex-direction: row; align-items: center; min-height: auto; }
+      .footer__col { width: calc(50% - 12px); }
+    }
+
+    /* ── Mobile ≤ 768px ── */
+    @media (max-width: 768px) {
+      .nav { padding: 10px 20px; }
+      .nav__mobile-menu { padding: 0 20px; }
+      .nav__mobile-menu.is-open { padding: 20px 20px; }
+
+      .hero { padding: 40px 20px; gap: 28px; }
+      .hero__heading { font-size: clamp(36px, 10vw, 52px); line-height: 1.05; }
+      /* Portrait — tall on mobile just like desktop */
+      .hero__image { height: 110vw; min-height: 360px; }
+
+      .content-2 { padding: 40px 20px; }
+      .content-2__image { height: 130vw; min-height: 400px; }
+      .text-project__body { font-size: 24px; line-height: 30px; }
+
+      .quote-section { padding: 40px 20px; }
+      .quote-section__heading { font-size: 28px; line-height: 36px; }
+      .arrow-icon--large { display: none; }
+
+      .content-3 { padding: 40px 20px; }
+      .content-3__image { height: 110vw; min-height: 360px; }
+
+      .four-col { padding: 60px 20px; gap: 32px; }
+      .four-col__item { flex: 0 0 100%; }
+      .four-col__body { font-size: 18px; line-height: 24px; }
+
+      .content-4 { padding: 40px 20px; }
+      .content-4__image { height: 130vw; min-height: 400px; }
+
+      .footer { padding: 48px 20px 24px; }
+      .footer__brand { flex-direction: column; gap: 24px; min-height: auto; }
+      .footer__col { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!--
+    STICKY FRAME OVERLAY
+    top: 76px — directly from top of viewport
+    mix-blend-mode: difference inverts colours behind white SVG lines
+    Desktop: centered max 1440px | Mobile: left-anchored, bleeds right
+  -->
+  <div class="sticky-frame" aria-hidden="true">
+    <img
+      src="http://localhost:3845/assets/d8f329cb8c17bb7d518821776799ff4cd502dd68.svg"
+      alt=""
+    />
+  </div>
+
+  <div class="page-wrapper">
+
+    <header>
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <div class="nav__logo">
+          <a href="/" aria-label="Manus home">
+            <img src="http://localhost:3845/assets/9b8fbedfd4c95f3ffc298491362688115004968c.svg" alt="Manus logo" width="113" height="20" />
+          </a>
+        </div>
+        <ul class="nav__list" role="list">
+          <li class="nav__item"><a href="#objects">Objects</a></li>
+          <li class="nav__item"><a href="#team">Team</a></li>
+          <li class="nav__item"><a href="#about">About</a></li>
+          <li class="nav__item"><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="nav__hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </header>
+
+    <div class="nav__mobile-menu" id="mobile-menu" role="menu">
+      <a href="#objects" role="menuitem">Objects</a>
+      <a href="#team" role="menuitem">Team</a>
+      <a href="#about" role="menuitem">About</a>
+      <a href="#contact" role="menuitem">Contact</a>
+    </div>
+
+    <main>
+
+      <section class="hero" aria-label="Hero" id="objects">
+        <div class="hero__text">
+          <div class="hero__text-inner">
+            <h1 class="hero__heading">From markets across Europe, manus seeks out objects with history, craft, and presence - handpicked pieces that give interiors depth and personality.</h1>
+          </div>
+          <div class="hero__arrow">
+            <img src="http://localhost:3845/assets/6e5827f18ebc362cbb8c5efb9be412ec806eaf08.svg" alt="Scroll down" />
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src="http://localhost:3845/assets/5a2867c2ffad561b6426219e35b198b8a0bf7d32.png" alt="Street scene at dusk with architecture" />
+        </div>
+      </section>
+
+      <section class="content-2" aria-label="Handpicked objects">
+        <div class="content-2__image">
+          <img src="http://localhost:3845/assets/4d41d48c608519fc12686c4299f32793844e667c.png" alt="Shelving with curated handpicked objects" />
+        </div>
+        <div class="content-2__text">
+          <div class="text-project">
+            <p class="text-project__label">handpicked objects</p>
+            <div class="text-project__body">Lorem ipsum sed amet sit sit pellentesque leo elementum consectetur interdum feugiat arcu nulla et felis libero imperdiet purus dignissim</div>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+      </section>
+
+      <section class="quote-section" aria-label="Quote">
+        <div class="quote-section__flex">
+          <p class="quote-section__heading">Manus lorem ipsum erat amet aenean proin aliquam et vulputate id quam lectus adipiscing condimentum egestas adipiscing porta tempor .</p>
+          <div class="arrow-icon arrow-icon--large"><img src="http://localhost:3845/assets/5dc551a33233df1c27482d6736ee07e3f5361ab4.svg" alt="Arrow" /></div>
+        </div>
+      </section>
+
+      <section class="content-3" aria-label="Handmade objects" id="team">
+        <div class="content-3__text">
+          <div class="text-project text-project--right">
+            <p class="text-project__label">Handmade objects</p>
+            <div class="text-project__body">Lorem ipsum sed amet sit sit pellentesque leo elementum consectetur interdum feugiat arcu nulla et felis libero imperdiet purus dignissim</div>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+        <div class="content-3__image">
+          <img src="http://localhost:3845/assets/76d50902cca5671fc87b5ee67453750ee9dfde6a.png" alt="Handmade ceramic object and painting" />
+        </div>
+      </section>
+
+      <section class="four-col" aria-label="About manus" id="about">
+        <div class="four-col__item">
+          <div class="text-project">
+            <h2 class="four-col__title">Curators</h2>
+            <p class="four-col__body">manus is a personal curator of art objects, vintage pieces and handmade works. each object is carefully sourced or created by hand, selected for its character, craft and lasting presence.</p>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+        <div class="four-col__item">
+          <div class="text-project">
+            <h2 class="four-col__title">Sourcing</h2>
+            <p class="four-col__body">we travel across european markets and studios in search of objects with history and integrity — pieces that carry a past and belong in a future interior.</p>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+        <div class="four-col__item">
+          <div class="text-project">
+            <h2 class="four-col__title">Composing interiors</h2>
+            <p class="four-col__body">manus does not decorate, but composes. objects are brought together with intention, creating interiors that gain depth and meaning over time.</p>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+        <div class="four-col__item">
+          <div class="text-project">
+            <h2 class="four-col__title">For whom</h2>
+            <p class="four-col__body">for private clients, interior designers and developers seeking pieces that make a space feel personal — not styled, but lived with.</p>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+      </section>
+
+      <section class="content-4" aria-label="Curated objects">
+        <div class="content-4__image">
+          <img src="http://localhost:3845/assets/7dcfb77ee93dbe3e164c78deb5bf278fe1774cf0.png" alt="Curated interior with framed artwork and dining table" />
+        </div>
+        <div class="content-4__text">
+          <div class="text-project">
+            <p class="text-project__label">Curated objects</p>
+            <div class="text-project__body">
+              <p>Lorem ipsum sed amet sit sit pellentesque leo elementum consectetur interdum feugiat arcu nulla et felis libero imperdiet purus dignissim.</p>
+              <p>Lorem ipsum sed amet sit sit pellentesque leo elementum consectetur interdum feugiat arcu nulla et felis libero imperdiet purus dignissim.</p>
+            </div>
+          </div>
+          <div class="arrow-icon"><img src="http://localhost:3845/assets/9b305244bf3697bcfb0a4c1f637366ac5415e77d.svg" alt="Arrow" /></div>
+        </div>
+      </section>
+
+      <section class="quote-section" aria-label="Closing quote">
+        <div class="quote-section__flex">
+          <p class="quote-section__heading">Manus lorem ipsum erat amet aenean proin aliquam et vulputate id quam lectus adipiscing condimentum egestas adipiscing porta tempor .</p>
+          <div class="arrow-icon arrow-icon--large"><img src="http://localhost:3845/assets/5dc551a33233df1c27482d6736ee07e3f5361ab4.svg" alt="Arrow" /></div>
+        </div>
+      </section>
+
+    </main>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- FOOTER — full viewport width, inner content max 1440px centered -->
+  <footer class="footer" id="contact">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo">
+          <a href="/" aria-label="Manus home">
+            <img src="http://localhost:3845/assets/87f19ccb8f23cdae52cb7855511a7b0d6d9d706b.svg" alt="Manus logo" width="113" height="20" />
+          </a>
+        </div>
+        <div class="footer__icon" aria-hidden="true">
+          <svg width="146" height="75" viewBox="0 0 146 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M144 49.3767V2H96.623L73.0005 25.6233V2H25.6235L2 25.6233V73H49.377L73.0005 49.3767V73H120.376L144 49.3767Z" stroke="#111827" stroke-width="4" stroke-miterlimit="10"/>
+          </svg>
+        </div>
+      </div>
+      <nav class="footer__col" aria-label="About links">
+        <p class="footer__col-heading">ABOUT</p>
+        <a href="#team" class="footer__col-link">Team</a>
+        <a href="#about" class="footer__col-link">Why manus?</a>
+        <a href="#contact" class="footer__col-link">Contact</a>
+      </nav>
+      <nav class="footer__col" aria-label="Services links">
+        <p class="footer__col-heading">SERVICES</p>
+        <a href="#" class="footer__col-link">Handpicked objects</a>
+        <a href="#" class="footer__col-link">Curated by hand</a>
+        <a href="#" class="footer__col-link">Handmade objects</a>
+        <a href="#" class="footer__col-link">Sustainability</a>
+        <a href="#" class="footer__col-link">Visualisations</a>
+      </nav>
+      <nav class="footer__col" aria-label="Terms links">
+        <p class="footer__col-heading">TERMS AND CONDITIONS</p>
+        <a href="#" class="footer__col-link">Terms and conditions</a>
+      </nav>
+      <nav class="footer__col" aria-label="Social links">
+        <p class="footer__col-heading">FOLLOW</p>
+        <a href="#" class="footer__col-link" target="_blank" rel="noopener noreferrer">Linkedin</a>
+        <a href="#" class="footer__col-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.nav__hamburger');
+    const mobileMenu = document.querySelector('.nav__mobile-menu');
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('is-open');
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        mobileMenu.classList.remove('is-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+
+</body>
+</html>
