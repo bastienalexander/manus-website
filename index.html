@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light only" />
+  <!-- Adobe Fonts (Typekit) — vervang XXXXXXX met jouw project code -->
+  <!-- <link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css"> -->
   <title>Manus</title>
   <style>
     /*
@@ -105,6 +107,7 @@
     }
     .nav__logo svg { width: 114px; height: 20px; display: block; }
     .nav__list { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-right { display: flex; align-items: center; gap: 16px; isolation: isolate; mix-blend-mode: normal; }
     .nav__item a {
       padding: 10px;
       font-size: var(--fs-24);
@@ -362,15 +365,13 @@
         left: 20px;
         transform: none;
         max-width: none;
-        /* Hoogte = viewport hoogte minus gelijke marge boven en onder (20px elk)
-           Breedte volgt automatisch uit SVG aspect ratio (1407:707 ≈ 2:1)
-           Het frame loopt rechts iets af — dat is het gewenste Figma-effect */
-        height: calc(100vh - var(--nav-height) - 40px);
+        height: calc(100svh - var(--nav-height) - 40px);
         width: auto;
       }
       .sticky-frame svg {
         height: 100%;
         width: auto;
+        display: block;
       }
 
       .hero { flex-direction: column; min-height: auto; gap: 40px; padding: 40px; }
@@ -445,64 +446,51 @@
       .footer__col { width: 100%; }
     }
 
-    /* ── DARK MODE ─────────────────────────────────────────────────────────── */
+
+    /* ── DARK MODE ── */
     body.dark-mode {
       --color-bg: #111111;
       --color-bg-footer: #0a0a0a;
       --color-text: #eeeeee;
       --color-text-dark: #dddddd;
     }
+    /* Toggle knop — fixed rechtsboven, buiten header/blend mode */
 
-    /* Toggle switch — rechts in de nav, naast hamburger */
-    .nav__toggle {
+    /* Desktop toggle in nav */
+    .nav__item--toggle button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      color: white;
       display: flex;
       align-items: center;
-      gap: 8px;
+    }
+    .nav__item--toggle .moon { display: none; }
+    body.dark-mode .nav__item--toggle .sun  { display: none; }
+    body.dark-mode .nav__item--toggle .moon { display: block; }
+
+    /* Dark mode toggle in menu */
+    #dm-btn {
+      background: none;
+      border: none;
       cursor: pointer;
-      flex-shrink: 0;
+      padding: 12px 0;
+      color: white;
+      width: 100%;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
     }
-    .toggle-switch {
-      position: relative;
-      width: 40px;
-      height: 22px;
-      flex-shrink: 0;
-    }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-      position: absolute;
-    }
-    .toggle-track {
-      position: absolute;
-      inset: 0;
-      border: 1.5px solid white;
-      border-radius: 11px;
-      transition: background 0.3s ease;
-      background: transparent;
-    }
-    .toggle-thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: white;
-      transition: transform 0.3s ease;
-    }
-    .toggle-switch input:checked ~ .toggle-track {
-      background: white;
-    }
-    .toggle-switch input:checked ~ .toggle-thumb {
-      transform: translateX(18px);
-      background: #111;
-    }
-    /* Op mobile: hamburger menu volgorde */
-    @media (max-width: 1024px) {
-      .nav__hamburger { order: 2; }
-      .nav__toggle { order: 3; }
-    }
+    #dm-btn .moon { display: none; }
+    body.dark-mode #dm-btn .sun  { display: none; }
+    body.dark-mode #dm-btn .moon { display: block; }
+    /* Footer logos in dark mode zichtbaar maken */
+    body.dark-mode .footer__logo svg path { fill: #eeeeee !important; }
+    body.dark-mode .footer__icon svg path { stroke: #eeeeee !important; }
+    body.dark-mode .footer__col-heading,
+    body.dark-mode .footer__col-link { color: #eeeeee; }
   </style>
 </head>
 <body>
@@ -527,8 +515,14 @@
           <li class="nav__item"><a href="#team">Team</a></li>
           <li class="nav__item"><a href="#about">About</a></li>
           <li class="nav__item"><a href="#contact">Contact</a></li>
+          <li class="nav__item nav__item--toggle">
+            <button id="dm-btn-desktop" aria-label="Toggle dark mode">
+              <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+          </li>
         </ul>
-<button class="nav__hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+        <button class="nav__hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
           <span></span><span></span><span></span>
         </button>
     </nav>
@@ -539,6 +533,10 @@
     <a href="#team" role="menuitem">Team</a>
     <a href="#about" role="menuitem">About</a>
     <a href="#contact" role="menuitem">Contact</a>
+    <button id="dm-btn" role="menuitem">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:24px;height:24px;display:block;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:24px;height:24px;display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
   </div>
 
   <div class="page-wrapper">
@@ -730,30 +728,40 @@
 
   <script>
 
-    // Dark mode toggle
-    const darkToggle = document.getElementById('dark-toggle');
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode === 'true') {
-      document.body.classList.add('dark-mode');
-      darkToggle.checked = true;
+    // Dark mode
+    const dmBtn = document.getElementById('dm-btn');
+    if (dmBtn) {
+      if (localStorage.getItem('dm') === '1') document.body.classList.add('dark-mode');
+      dmBtn.addEventListener('click', function() {
+        const on = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('dm', on ? '1' : '0');
+        // Sluit menu na klik
+        document.querySelector('.nav__mobile-menu').classList.remove('is-open');
+        document.querySelector('.nav__hamburger').setAttribute('aria-expanded', 'false');
+      });
+      // Sync desktop knop
+      const dmDesktop = document.getElementById('dm-btn-desktop');
+      if (dmDesktop) {
+        dmDesktop.addEventListener('click', function() {
+          const on = document.body.classList.toggle('dark-mode');
+          localStorage.setItem('dm', on ? '1' : '0');
+        });
+      }
     }
-    darkToggle.addEventListener('change', function() {
-      document.body.classList.toggle('dark-mode', this.checked);
-      localStorage.setItem('darkMode', this.checked);
-    });
-
     const hamburger = document.querySelector('.nav__hamburger');
     const mobileMenu = document.querySelector('.nav__mobile-menu');
-    hamburger.addEventListener('click', function () {
-      const isOpen = mobileMenu.classList.toggle('is-open');
-      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-    mobileMenu.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        mobileMenu.classList.remove('is-open');
-        hamburger.setAttribute('aria-expanded', 'false');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function () {
+        const isOpen = mobileMenu.classList.toggle('is-open');
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
-    });
+      mobileMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          mobileMenu.classList.remove('is-open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
   </script>
 
 </body>
