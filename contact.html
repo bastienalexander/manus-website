@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light only" />
-  <!-- Adobe Fonts: Neue Haas Grotesk Display Pro -->
   <link rel="stylesheet" href="https://use.typekit.net/hba8axj.css">
-  <title>Manus</title>
+  <title>Manus — Contact</title>
   <style>
     /*
       FONT STRATEGY
@@ -493,16 +492,112 @@
     body.dark-mode .footer__icon svg path { stroke: #eeeeee !important; }
     body.dark-mode .footer__col-heading,
     body.dark-mode .footer__col-link { color: #eeeeee; }
+  
+    /* ── Subpage layout ── */
+    .subpage {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 80px 80px 120px;
+    }
+    .subpage__header {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin-bottom: 80px;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 40px;
+    }
+    .subpage__label {
+      font-size: var(--fs-16);
+      font-weight: var(--fw-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.5;
+    }
+    .subpage__title {
+      font-size: var(--fs-48);
+      font-weight: var(--fw-roman);
+      line-height: var(--lh-48);
+      max-width: 800px;
+    }
+    .subpage__body {
+      display: flex;
+      gap: 80px;
+      align-items: flex-start;
+    }
+    .subpage__text {
+      flex: 1;
+      font-size: var(--fs-24);
+      font-weight: var(--fw-light);
+      line-height: 36px;
+    }
+    .subpage__text p + p { margin-top: 24px; }
+    .subpage__image {
+      width: 480px;
+      flex-shrink: 0;
+      aspect-ratio: 3/4;
+      background: #d8d8d8;
+      overflow: hidden;
+      position: relative;
+    }
+    .subpage__image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .subpage__image-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--fs-16);
+      font-weight: var(--fw-light);
+      opacity: 0.4;
+      text-align: center;
+      padding: 20px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--fs-16);
+      font-weight: var(--fw-roman);
+      margin-bottom: 60px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 1; }
+    
+    .contact-grid {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 60px;
+    }}
+    .contact-item {{ display: flex; flex-direction: column; gap: 8px; }}
+    .contact-item__label {{ font-size: var(--fs-16); font-weight: var(--fw-light); opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }}
+    .contact-item__value {{ font-size: var(--fs-24); font-weight: var(--fw-roman); }}
+    .contact-item__value a {{ text-decoration: underline; text-underline-offset: 4px; }}
+    @media (max-width: 768px) {{ .contact-grid {{ grid-template-columns: 1fr; }} }}
+
+    @media (max-width: 1024px) {
+      .subpage { padding: 60px 40px 80px; }
+      .subpage__body { flex-direction: column; gap: 40px; }
+      .subpage__image { width: 100%; aspect-ratio: 4/3; }
+      .subpage__title { font-size: 36px; line-height: 42px; }
+    }
+    @media (max-width: 768px) {
+      .subpage { padding: 40px 20px 60px; }
+      .subpage__title { font-size: clamp(28px, 8vw, 42px); line-height: 1.1; }
+      .subpage__text { font-size: var(--fs-20); line-height: 30px; }
+    }
   </style>
 </head>
 <body>
 
-  <!--
-    STICKY FRAME OVERLAY
-    top: 76px — directly from top of viewport
-    mix-blend-mode: difference inverts colours behind white SVG lines
-    Desktop: centered max 1440px | Mobile: left-anchored, bleeds right
-  -->
   <div class="sticky-frame" aria-hidden="true"><svg preserveAspectRatio="xMinYMin meet" overflow="visible" viewBox="0 0 1407 707" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M1403.5 470.594V3.5H936.403L703.505 236.406V3.5H236.408L3.5 236.406V703.5H470.597L703.505 470.594V703.5H1170.59L1403.5 470.594Z" stroke="white" stroke-width="7" stroke-miterlimit="10"/>
 </svg></div>
@@ -542,154 +637,51 @@
   </div>
 
   <div class="page-wrapper">
-    <main>
+    <div class="subpage">
 
-      <section class="hero" aria-label="Hero" id="objects">
-        <div class="hero__text">
-          <div class="hero__text-inner">
-            <h1 class="hero__heading">From markets across Europe, manus seeks out objects with history, craft, and presence - handpicked pieces that give interiors depth and personality.</h1>
-          </div>
-          <div class="hero__arrow">
-            <svg width="66" height="72" viewBox="0 0 66 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="33" y1="2" x2="33" y2="58" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="33" y1="58" x2="4" y2="30" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="33" y1="58" x2="62" y2="30" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg>
-          </div>
-        </div>
-        <div class="hero__image">
-          <img src="images/hero.png" alt="Street scene at dusk with architecture" />
-        </div>
-      </section>
+      <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><line x1="18" y1="10" x2="2" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><polyline points="8,4 2,10 8,16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </a>
 
-      <section class="content-2" aria-label="Handpicked objects">
-        <div class="content-2__image">
-          <img src="images/shelves.png" alt="Shelving with curated handpicked objects" />
-        </div>
-        <div class="content-2__text">
-          <div class="text-project">
-            <p class="text-project__label">handpicked objects</p>
-            <div class="text-project__body">Across European markets, ateliers and private collections, manus searches for objects that carry a story. Pieces with character, craft and a presence that gives an interior depth.</div>
-          </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-      </section>
+      <div class="subpage__header">
+        <p class="subpage__label">Contact</p>
+        <h1 class="subpage__title">Get in touch — we are happy to talk about objects, spaces and ideas.</h1>
+      </div>
 
-      <section class="quote-section" aria-label="Quote">
-        <div class="quote-section__flex">
-          <p class="quote-section__heading">Not what is trending, but what endures. manus seeks objects that will speak just as clearly in ten years as they do today.</p>
-          <div class="arrow-icon arrow-icon--large"><svg width="72" height="68" viewBox="0 0 72 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="34" x2="56" y2="34" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="10" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="58" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-      </section>
+      <div class="subpage__body">
+        <div class="subpage__text">
+          <p>We are always open to conversations about objects, spaces and collaborations. Whether you are looking for something specific or simply want to know more about how manus works — reach out.</p>
+          <p>We aim to respond within two working days.</p>
 
-      <section class="content-3" aria-label="Handmade objects" id="team">
-        <div class="content-3__text">
-          <div class="text-project text-project--right">
-            <p class="text-project__label">handmade objects</p>
-            <div class="text-project__body">Every handmade object is one of a kind. manus works with craftspeople and artists who know their materials and take their time — for pieces you will not find just anywhere.</div>
-          </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-        <div class="content-3__image">
-          <img src="images/ceramic.png" alt="Handmade ceramic object and painting" />
-        </div>
-      </section>
-
-      <section class="four-col" aria-label="About manus" id="about">
-        <div class="four-col__item">
-          <div class="text-project">
-            <h2 class="four-col__title">Curators</h2>
-            <p class="four-col__body">manus is a personal curator of art objects, vintage finds and handmade work. Each piece is carefully selected for its character, craft and lasting presence.</p>
-          </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-        <div class="four-col__item">
-          <div class="text-project">
-            <h2 class="four-col__title">Sourcing</h2>
-            <p class="four-col__body">From Parisian flea markets to Portuguese potters — manus travels across Europe in search of objects with a history and an honest story behind the maker.</p>
-          </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-        <div class="four-col__item">
-          <div class="text-project">
-            <h2 class="four-col__title">Composing interiors</h2>
-            <p class="four-col__body">manus does not decorate, but composes. Objects are brought together with intention — so that an interior deepens with time rather than simply ages.</p>
-          </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-        <div class="four-col__item">
-          <div class="text-project">
-            <h2 class="four-col__title">For whom</h2>
-            <p class="four-col__body">For private clients, interior designers and developers looking for pieces that make a space feel personal — not styled, but lived with.</p>
-          </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
-        </div>
-      </section>
-
-      <section class="content-4" aria-label="Curated objects">
-        <div class="content-4__image">
-          <img src="images/interior.png" alt="Curated interior with framed artwork and dining table" />
-        </div>
-        <div class="content-4__text">
-          <div class="text-project">
-            <p class="text-project__label">curated objects</p>
-            <div class="text-project__body">
-              <p>Every object in the manus collection is personally selected. No bulk buying, no trends — only pieces that manus believes truly belong somewhere.</p>
-              <p>From a worn wooden stool to a carefully thrown ceramic vase — it is about the feeling an object brings to the space around it.</p>
+          <div class="contact-grid">
+            <div class="contact-item">
+              <span class="contact-item__label">Email</span>
+              <span class="contact-item__value"><a href="mailto:hello@manusobject.nl">hello@manusobject.nl</a></span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__label">Instagram</span>
+              <span class="contact-item__value"><a href="#" target="_blank">@manusobject</a></span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__label">Based in</span>
+              <span class="contact-item__value">Europe</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__label">LinkedIn</span>
+              <span class="contact-item__value"><a href="#" target="_blank">manus</a></span>
             </div>
           </div>
-          <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
         </div>
-      </section>
-
-      <section class="quote-section" aria-label="Closing quote">
-        <div class="quote-section__flex">
-          <p class="quote-section__heading">Not what is trending, but what endures. manus seeks objects that will speak just as clearly in ten years as they do today.</p>
-          <div class="arrow-icon arrow-icon--large"><svg width="72" height="68" viewBox="0 0 72 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="34" x2="56" y2="34" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="10" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="58" stroke="black" stroke-width="2" stroke-linecap="square"/>
-</svg></div>
+        <div class="subpage__image">
+          <img src="images/contact.jpg" alt="manus studio" onerror="this.style.display='none'" />
+          <div class="subpage__image-placeholder">Add image<br/>contact.jpg</div>
         </div>
-      </section>
+      </div>
 
-    </main>
+    </div>
+  </div>
 
-  </div><!-- /.page-wrapper -->
-
-  <!-- FOOTER — full viewport width, inner content max 1440px centered -->
   <footer class="footer" id="contact">
     <div class="footer__inner">
       <div class="footer__brand">
