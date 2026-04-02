@@ -358,15 +358,12 @@
       .nav__hamburger { display: flex; }
       .nav__mobile-menu { display: flex; }
 
-      /* Frame: left-anchor so it bleeds off-screen right (per Figma mobile design).
-         Keep full desktop width so frame proportions are preserved. */
+      /* Frame: mobile — kader hoogte ~80% viewport, rechts buiten beeld */
       .sticky-frame {
-        /* Frame op mobile: links buiten beeld zodat lijn tekst niet snijdt,
-           hoogte past in viewport, breedte volgt aspect ratio (1407:707) */
         left: 6px;
         transform: none;
         max-width: none;
-        height: calc(100svh - var(--nav-height) - 20px);
+        height: 80svh;
         width: auto;
       }
       .sticky-frame svg {
@@ -504,7 +501,6 @@
       flex-direction: column;
       gap: 40px;
       margin-bottom: 80px;
-      border-bottom: 1px solid currentColor;
       padding-bottom: 40px;
     }
     .subpage__label {
@@ -571,22 +567,23 @@
     }
     .back-link:hover { opacity: 1; }
     
-    .contact-grid {{
+    .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
       margin-top: 60px;
-    }}
-    .contact-item {{ display: flex; flex-direction: column; gap: 8px; }}
-    .contact-item__label {{ font-size: var(--fs-16); font-weight: var(--fw-light); opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }}
-    .contact-item__value {{ font-size: var(--fs-24); font-weight: var(--fw-roman); }}
-    .contact-item__value a {{ text-decoration: underline; text-underline-offset: 4px; }}
-    @media (max-width: 768px) {{ .contact-grid {{ grid-template-columns: 1fr; }} }}
+    }
+    .contact-item { display: flex; flex-direction: column; gap: 8px; }
+    .contact-item__label { font-size: var(--fs-16); font-weight: var(--fw-light); opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
+    .contact-item__value { font-size: var(--fs-24); font-weight: var(--fw-roman); }
+    .contact-item__value a { text-decoration: underline; text-underline-offset: 4px; }
+    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
 
     @media (max-width: 1024px) {
       .subpage { padding: 60px 40px 80px; }
       .subpage__body { flex-direction: column; gap: 40px; }
-      .subpage__image { width: 100%; aspect-ratio: 4/3; }
+      .subpage__image { width: 100%; height: auto; aspect-ratio: auto; }
+      .subpage__image img { position: static; width: 100%; height: auto; object-fit: initial; }
       .subpage__title { font-size: 36px; line-height: 42px; }
     }
     @media (max-width: 768px) {
@@ -675,7 +672,6 @@
         </div>
         <div class="subpage__image">
           <img src="images/contact.jpg" alt="manus studio" onerror="this.style.display='none'" />
-          <div class="subpage__image-placeholder">Add image<br/>contact.jpg</div>
         </div>
       </div>
 
@@ -768,4 +764,14 @@
         const isOpen = mobileMenu.classList.toggle('is-open');
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
-      mobileMenu.querySelectorAll('a').
+      mobileMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          mobileMenu.classList.remove('is-open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

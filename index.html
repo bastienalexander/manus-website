@@ -184,7 +184,7 @@
       line-height: var(--lh-48);
       width: 518px;
     }
-    .hero__arrow { width: 66.554px; height: 71.188px; flex-shrink: 0; margin-top: 4px; }
+    .hero__arrow { width: 66.554px; height: 71.188px; flex-shrink: 0; margin-top: 4px; mix-blend-mode: difference; }
     .hero__image {
       position: relative;
       width: 624px;
@@ -237,7 +237,7 @@
     .text-project--right { text-align: right; }
 
     /* ── Arrow icons ── */
-    .arrow-icon { width: 36px; height: 34px; flex-shrink: 0; }
+    .arrow-icon { width: 36px; height: 34px; flex-shrink: 0; mix-blend-mode: difference; }
     .arrow-icon svg { width: 100%; height: 100%; display: block; }
     .arrow-icon img { width: 100%; height: 100%; }
     .arrow-icon--large { width: 72px; height: 68px; flex-shrink: 0; }
@@ -359,15 +359,12 @@
       .nav__hamburger { display: flex; }
       .nav__mobile-menu { display: flex; }
 
-      /* Frame: left-anchor so it bleeds off-screen right (per Figma mobile design).
-         Keep full desktop width so frame proportions are preserved. */
+      /* Frame: mobile — kader hoogte ~60% viewport, rechts buiten beeld */
       .sticky-frame {
-        /* Frame op mobile: links buiten beeld zodat lijn tekst niet snijdt,
-           hoogte past in viewport, breedte volgt aspect ratio (1407:707) */
         left: 6px;
         transform: none;
         max-width: none;
-        height: calc(100svh - var(--nav-height) - 20px);
+        height: 60svh;
         width: auto;
       }
       .sticky-frame svg {
@@ -378,12 +375,12 @@
 
       .hero { flex-direction: column; min-height: auto; gap: 40px; padding: 40px; }
       .hero__heading { width: 100%; font-size: 42px; line-height: 48px; }
-      /* Portrait image — keep tall aspect ratio as in design reference */
-      .hero__image { width: 100%; height: 75vw; min-height: 480px; }
+      .hero__image { width: 100%; height: auto; }
+      .hero__image img { position: static; width: 100%; height: auto; object-fit: initial; }
 
       .content-2 { flex-direction: column-reverse; min-height: auto; padding: 60px 40px; }
-      /* Portrait image on tablet/mobile */
-      .content-2__image { width: 100%; height: 120vw; min-height: 480px; max-height: 936px; }
+      .content-2__image { width: 100%; height: auto; }
+      .content-2__image img { position: static; width: 100%; height: auto; object-fit: initial; }
       .content-2__text { width: 100%; }
 
       .quote-section { min-height: auto; padding: 60px 40px; }
@@ -398,15 +395,15 @@
       }
       .content-3__text { width: 100%; align-items: flex-start; }
       .text-project--right { text-align: left; }
-      /* Portrait image */
-      .content-3__image { width: 100%; height: 100vw; min-height: 400px; max-height: 628px; }
+      .content-3__image { width: 100%; height: auto; }
+      .content-3__image img { position: static; width: 100%; height: auto; object-fit: initial; }
 
       .four-col { flex-wrap: wrap; min-height: auto; padding: 60px 40px; }
       .four-col__item { flex: 0 0 calc(50% - 16px); }
 
       .content-4 { flex-direction: column; min-height: auto; padding: 60px 40px; }
-      /* Portrait image */
-      .content-4__image { width: 100%; height: 120vw; min-height: 480px; max-height: 936px; }
+      .content-4__image { width: 100%; height: auto; }
+      .content-4__image img { position: static; width: 100%; height: auto; object-fit: initial; }
 
       .footer { padding: 48px 40px 24px; }
       .footer__inner { flex-wrap: wrap; gap: 24px; }
@@ -422,11 +419,8 @@
 
       .hero { padding: 40px 20px; gap: 28px; }
       .hero__heading { font-size: clamp(36px, 10vw, 52px); line-height: 1.05; }
-      /* Portrait — tall on mobile just like desktop */
-      .hero__image { height: 110vw; min-height: 360px; }
 
       .content-2 { padding: 40px 20px; }
-      .content-2__image { height: 130vw; min-height: 400px; }
       .text-project__body { font-size: 24px; line-height: 30px; }
 
       .quote-section { padding: 40px 20px; }
@@ -434,14 +428,12 @@
       .arrow-icon--large { display: none; }
 
       .content-3 { padding: 40px 20px; }
-      .content-3__image { height: 110vw; min-height: 360px; }
 
       .four-col { padding: 60px 20px; gap: 32px; }
       .four-col__item { flex: 0 0 100%; }
       .four-col__body { font-size: 18px; line-height: 24px; }
 
       .content-4 { padding: 40px 20px; }
-      .content-4__image { height: 130vw; min-height: 400px; }
 
       .footer { padding: 48px 20px 24px; }
       .footer__brand { flex-direction: column; gap: 24px; min-height: auto; }
@@ -551,9 +543,9 @@
           </div>
           <div class="hero__arrow">
             <svg width="66" height="72" viewBox="0 0 66 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="33" y1="2" x2="33" y2="58" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="33" y1="58" x2="4" y2="30" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="33" y1="58" x2="62" y2="30" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="33" y1="2" x2="33" y2="58" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="33" y1="58" x2="4" y2="30" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="33" y1="58" x2="62" y2="30" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg>
           </div>
         </div>
@@ -572,9 +564,9 @@
             <div class="text-project__body">Across European markets, ateliers and private collections, manus searches for objects that carry a story. Pieces with character, craft and a presence that gives an interior depth.</div>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
       </section>
@@ -583,9 +575,9 @@
         <div class="quote-section__flex">
           <p class="quote-section__heading">Not what is trending, but what endures. manus seeks objects that will speak just as clearly in ten years as they do today.</p>
           <div class="arrow-icon arrow-icon--large"><svg width="72" height="68" viewBox="0 0 72 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="34" x2="56" y2="34" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="10" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="58" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="34" x2="56" y2="34" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="56" y1="34" x2="32" y2="10" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="56" y1="34" x2="32" y2="58" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
       </section>
@@ -597,9 +589,9 @@
             <div class="text-project__body">Every handmade object is one of a kind. manus works with craftspeople and artists who know their materials and take their time — for pieces you will not find just anywhere.</div>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
         <div class="content-3__image">
@@ -614,9 +606,9 @@
             <p class="four-col__body">manus is a personal curator of art objects, vintage finds and handmade work. Each piece is carefully selected for its character, craft and lasting presence.</p>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
         <div class="four-col__item">
@@ -625,9 +617,9 @@
             <p class="four-col__body">From Parisian flea markets to Portuguese potters — manus travels across Europe in search of objects with a history and an honest story behind the maker.</p>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
         <div class="four-col__item">
@@ -636,9 +628,9 @@
             <p class="four-col__body">manus does not decorate, but composes. Objects are brought together with intention — so that an interior deepens with time rather than simply ages.</p>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
         <div class="four-col__item">
@@ -647,9 +639,9 @@
             <p class="four-col__body">For private clients, interior designers and developers looking for pieces that make a space feel personal — not styled, but lived with.</p>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
       </section>
@@ -667,9 +659,9 @@
             </div>
           </div>
           <div class="arrow-icon"><svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="17" x2="28" y2="17" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="5" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="28" y1="17" x2="16" y2="29" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
       </section>
@@ -678,9 +670,9 @@
         <div class="quote-section__flex">
           <p class="quote-section__heading">Not what is trending, but what endures. manus seeks objects that will speak just as clearly in ten years as they do today.</p>
           <div class="arrow-icon arrow-icon--large"><svg width="72" height="68" viewBox="0 0 72 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="34" x2="56" y2="34" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="10" stroke="black" stroke-width="2" stroke-linecap="square"/>
-<line x1="56" y1="34" x2="32" y2="58" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="0" y1="34" x2="56" y2="34" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="56" y1="34" x2="32" y2="10" stroke="white" stroke-width="2" stroke-linecap="square"/>
+<line x1="56" y1="34" x2="32" y2="58" stroke="white" stroke-width="2" stroke-linecap="square"/>
 </svg></div>
         </div>
       </section>

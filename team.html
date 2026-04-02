@@ -358,15 +358,12 @@
       .nav__hamburger { display: flex; }
       .nav__mobile-menu { display: flex; }
 
-      /* Frame: left-anchor so it bleeds off-screen right (per Figma mobile design).
-         Keep full desktop width so frame proportions are preserved. */
+      /* Frame: mobile — kader hoogte ~80% viewport, rechts buiten beeld */
       .sticky-frame {
-        /* Frame op mobile: links buiten beeld zodat lijn tekst niet snijdt,
-           hoogte past in viewport, breedte volgt aspect ratio (1407:707) */
         left: 6px;
         transform: none;
         max-width: none;
-        height: calc(100svh - var(--nav-height) - 20px);
+        height: 80svh;
         width: auto;
       }
       .sticky-frame svg {
@@ -504,7 +501,6 @@
       flex-direction: column;
       gap: 40px;
       margin-bottom: 80px;
-      border-bottom: 1px solid currentColor;
       padding-bottom: 40px;
     }
     .subpage__label {
@@ -574,7 +570,8 @@
     @media (max-width: 1024px) {
       .subpage { padding: 60px 40px 80px; }
       .subpage__body { flex-direction: column; gap: 40px; }
-      .subpage__image { width: 100%; aspect-ratio: 4/3; }
+      .subpage__image { width: 100%; height: auto; aspect-ratio: auto; }
+      .subpage__image img { position: static; width: 100%; height: auto; object-fit: initial; }
       .subpage__title { font-size: 36px; line-height: 42px; }
     }
     @media (max-width: 768px) {
@@ -646,7 +643,6 @@
         </div>
         <div class="subpage__image">
           <img src="images/team.jpg" alt="The manus team at work" onerror="this.style.display='none'" />
-          <div class="subpage__image-placeholder">Add image<br/>team.jpg</div>
         </div>
       </div>
 
