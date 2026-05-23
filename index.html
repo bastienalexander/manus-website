@@ -185,20 +185,73 @@
       width: 518px;
     }
     .hero__arrow { width: 66.554px; height: 71.188px; flex-shrink: 0; margin-top: 4px; mix-blend-mode: difference; }
-    .hero__image {
+
+    /* ── Carousel ── */
+    .hero__carousel {
       position: relative;
       width: 624px;
       height: 832px;
       flex-shrink: 0;
       overflow: hidden;
     }
-    .hero__image img {
+    .carousel__track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .carousel__slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .carousel__slide img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+    /* Prev/next buttons */
+    .carousel__btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      mix-blend-mode: difference;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel__btn--prev { left: 16px; }
+    .carousel__btn--next { right: 16px; }
+    .carousel__btn svg { width: 36px; height: 34px; }
+    /* Dots */
+    .carousel__dots {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+    .carousel__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s;
+    }
+    .carousel__dot.is-active { background: white; }
 
     /* ── Content 2 ── */
     .content-2 {
@@ -375,8 +428,7 @@
 
       .hero { flex-direction: column; min-height: auto; gap: 40px; padding: 40px; }
       .hero__heading { width: 100%; font-size: 42px; line-height: 48px; }
-      .hero__image { width: 100%; height: auto; }
-      .hero__image img { position: static; width: 100%; height: auto; object-fit: initial; }
+      .hero__carousel { width: 100%; height: 560px; }
 
       .content-2 { flex-direction: column-reverse; min-height: auto; padding: 60px 40px; }
       .content-2__image { width: 100%; height: auto; }
@@ -419,6 +471,7 @@
 
       .hero { padding: 40px 20px; gap: 28px; }
       .hero__heading { font-size: clamp(36px, 10vw, 52px); line-height: 1.05; }
+      .hero__carousel { height: 420px; }
 
       .content-2 { padding: 40px 20px; }
       .text-project__body { font-size: 24px; line-height: 30px; }
@@ -549,8 +602,40 @@
 </svg>
           </div>
         </div>
-        <div class="hero__image">
-          <img src="images/hero.png" alt="Street scene at dusk with architecture" />
+
+        <!-- CAROUSEL -->
+        <div class="hero__carousel" aria-label="Image carousel" role="region">
+          <div class="carousel__track" id="carouselTrack">
+            <div class="carousel__slide">
+              <img src="images/hero.png" alt="Street scene at dusk with architecture" />
+            </div>
+            <div class="carousel__slide">
+              <img src="images/shelves.png" alt="Curated objects on shelving" />
+            </div>
+            <div class="carousel__slide">
+              <img src="images/interior.png" alt="Curated interior with framed artwork" />
+            </div>
+            <div class="carousel__slide">
+              <img src="images/ceramic.png" alt="Handmade ceramic object" />
+            </div>
+          </div>
+
+          <button class="carousel__btn carousel__btn--prev" aria-label="Previous image" id="carouselPrev">
+            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="36" y1="17" x2="8" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+              <line x1="8" y1="17" x2="20" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+              <line x1="8" y1="17" x2="20" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
+            </svg>
+          </button>
+          <button class="carousel__btn carousel__btn--next" aria-label="Next image" id="carouselNext">
+            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="17" x2="28" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/>
+              <line x1="28" y1="17" x2="16" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/>
+              <line x1="28" y1="17" x2="16" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/>
+            </svg>
+          </button>
+
+          <div class="carousel__dots" role="tablist" aria-label="Carousel navigation" id="carouselDots"></div>
         </div>
       </section>
 
@@ -775,6 +860,57 @@
         });
       });
     }
+    // Carousel
+    (function() {
+      const track = document.getElementById('carouselTrack');
+      const prevBtn = document.getElementById('carouselPrev');
+      const nextBtn = document.getElementById('carouselNext');
+      const dotsContainer = document.getElementById('carouselDots');
+      if (!track) return;
+
+      const slides = track.querySelectorAll('.carousel__slide');
+      let current = 0;
+      const total = slides.length;
+
+      // Build dots
+      slides.forEach(function(_, i) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel__dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', function() { goTo(i); });
+        dotsContainer.appendChild(dot);
+      });
+
+      function updateDots() {
+        dotsContainer.querySelectorAll('.carousel__dot').forEach(function(d, i) {
+          d.classList.toggle('is-active', i === current);
+        });
+      }
+
+      function goTo(index) {
+        current = (index + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        updateDots();
+      }
+
+      prevBtn.addEventListener('click', function() { goTo(current - 1); });
+      nextBtn.addEventListener('click', function() { goTo(current + 1); });
+
+      // Touch/swipe support
+      let startX = 0;
+      track.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', function(e) {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+      });
+
+      // Auto-advance every 5s
+      let timer = setInterval(function() { goTo(current + 1); }, 5000);
+      [prevBtn, nextBtn].forEach(function(btn) {
+        btn.addEventListener('click', function() { clearInterval(timer); timer = setInterval(function() { goTo(current + 1); }, 5000); });
+      });
+    })();
+
   </script>
 
 </body>
