@@ -501,7 +501,7 @@
     .sp-hero__text { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:24px; flex-shrink:0; max-width:518px; }
     .sp-hero__heading { font-size:var(--fs-48); font-weight:var(--fw-roman); line-height:var(--lh-48); }
     .sp-hero__body { font-size:var(--fs-32); font-weight:var(--fw-roman); line-height:var(--lh-32); }
-    .sp-hero__body p+p { margin-top:20px; }
+    .sp-hero__body p+p { margin-top:180px; }
     .sp-hero__extra { font-size:var(--fs-20); font-weight:var(--fw-light); opacity:0.65; }
     .sp-hero__extra a:hover { text-decoration:underline; }
     .sp-hero__image { position:relative; width:624px; height:832px; flex-shrink:0; overflow:hidden; }
@@ -584,14 +584,12 @@
   
 
     /* ── Lookbook canvas ── */
-    .lb-header { padding: 80px 80px 40px; }
-    .lb-header h1 { font-size: var(--fs-48); font-weight: var(--fw-roman); line-height: var(--lh-48); margin-bottom: 16px; }
-    .lb-header p  { font-size: var(--fs-20); font-weight: var(--fw-roman); line-height: 28px; opacity: 0.6; }
+    .lb-title { position: absolute; top: 80px; left: 80px; font-size: var(--fs-48); font-weight: var(--fw-roman); line-height: var(--lh-48); pointer-events: none; z-index: 0; }
 
     .lb-canvas {
       position: relative;
       width: 100%;
-      min-height: 1600px;
+      min-height: 2000px;
       overflow: hidden;
       cursor: default;
     }
@@ -623,6 +621,34 @@
       .lb-header { padding: 40px 20px 24px; }
       .lb-card { width: 60vw !important; }
       .pdf-btn { margin: 40px 20px; font-size: var(--fs-20); padding: 16px 24px; }
+    }
+
+  
+    /* ── Mobile: masonry grid instead of free canvas ── */
+    @media (max-width: 1024px) {
+      .lb-title { position: static; padding: 40px 20px 24px; font-size: 36px; }
+      .lb-canvas {
+        position: static !important;
+        min-height: auto !important;
+        display: block;
+        column-count: 1;
+        column-gap: 12px;
+        padding: 0 20px 60px;
+        overflow: visible !important;
+      }
+      .lb-card {
+        position: static !important;
+        display: inline-block;
+        width: 100% !important;
+        margin-bottom: 12px;
+        transform: none !important;
+        cursor: default !important;
+        break-inside: avoid;
+      }
+      .lb-card img { width: 100%; height: auto; }
+    }
+    @media (max-width: 480px) {
+      .lb-canvas { column-count: 1 !important; padding: 0 16px 40px; }
     }
 
   </style>
@@ -660,46 +686,55 @@
   </div>
 
 
-  <div class="lb-header">
-    <h1>Portfolio</h1>
-  </div>
-
   <div class="lb-canvas" id="lbCanvas">
-      <div class="lb-card" style="width:340px;left:40px;top:60px;transform:rotate(0deg);" data-rot="-1.5">
+      <h1 class="lb-title">Portfolio</h1>
+      <div class="lb-card" style="width:340px;left:40px;top:220px;transform:rotate(0deg);" data-rot="-1.5">
         <img src="images/portfolio/p01.jpg" alt="Landscape painting" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:560px;left:420px;top:20px;transform:rotate(0deg);" data-rot="0.8">
+      <div class="lb-card" style="width:560px;left:420px;top:180px;transform:rotate(0deg);" data-rot="0.8">
         <img src="images/portfolio/p02.jpg" alt="Abstract tile wall" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:300px;left:1020px;top:80px;transform:rotate(0deg);" data-rot="-2.2">
+      <div class="lb-card" style="width:300px;left:1020px;top:240px;transform:rotate(0deg);" data-rot="-2.2">
         <img src="images/portfolio/p03.jpg" alt="Artichokes on marble" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:360px;left:80px;top:480px;transform:rotate(0deg);" data-rot="1.2">
+      <div class="lb-card" style="width:360px;left:80px;top:640px;transform:rotate(0deg);" data-rot="1.2">
         <img src="images/portfolio/p04.jpg" alt="Studio objects" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:500px;left:460px;top:380px;transform:rotate(0deg);" data-rot="-0.5">
+      <div class="lb-card" style="width:500px;left:460px;top:540px;transform:rotate(0deg);" data-rot="-0.5">
         <img src="images/portfolio/p05.jpg" alt="Restaurant dining room" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:380px;left:940px;top:400px;transform:rotate(0deg);" data-rot="1.8">
+      <div class="lb-card" style="width:380px;left:940px;top:560px;transform:rotate(0deg);" data-rot="1.8">
         <img src="images/portfolio/p06.jpg" alt="Cozy restaurant interior" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:420px;left:100px;top:880px;transform:rotate(0deg);" data-rot="-1.0">
+      <div class="lb-card" style="width:420px;left:100px;top:1040px;transform:rotate(0deg);" data-rot="-1.0">
         <img src="images/portfolio/p07.jpg" alt="Grey still life" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:300px;left:500px;top:820px;transform:rotate(0deg);" data-rot="2.5">
+      <div class="lb-card" style="width:300px;left:500px;top:980px;transform:rotate(0deg);" data-rot="2.5">
         <img src="images/portfolio/p08.jpg" alt="Flower detail painting" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:360px;left:940px;top:780px;transform:rotate(0deg);" data-rot="-1.8">
+      <div class="lb-card" style="width:360px;left:940px;top:940px;transform:rotate(0deg);" data-rot="-1.8">
         <img src="images/portfolio/p09.jpg" alt="Blue flowers painting" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:320px;left:60px;top:1260px;transform:rotate(0deg);" data-rot="0.5">
+      <div class="lb-card" style="width:320px;left:60px;top:1420px;transform:rotate(0deg);" data-rot="0.5">
         <img src="images/portfolio/p10.jpg" alt="Concrete staircase" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:340px;left:460px;top:1200px;transform:rotate(0deg);" data-rot="-2.0">
+      <div class="lb-card" style="width:340px;left:460px;top:1360px;transform:rotate(0deg);" data-rot="-2.0">
         <img src="images/portfolio/p11.jpg" alt="Black jug painting" draggable="false"/>
       </div>
-      <div class="lb-card" style="width:360px;left:960px;top:1180px;transform:rotate(0deg);" data-rot="1.5">
+      <div class="lb-card" style="width:360px;left:960px;top:1340px;transform:rotate(0deg);" data-rot="1.5">
         <img src="images/portfolio/p12.jpg" alt="Blue flowers on easel" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:420px;left:380px;top:1780px;transform:rotate(0deg);" data-rot="0">
+        <img src="images/portfolio/p05.jpg" alt="Restaurant" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:300px;left:860px;top:1720px;transform:rotate(0deg);" data-rot="0">
+        <img src="images/portfolio/p11.jpg" alt="Black jug" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:360px;left:80px;top:1800px;transform:rotate(0deg);" data-rot="0">
+        <img src="images/portfolio/p03.jpg" alt="Artichokes" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:340px;left:1220px;top:1360px;transform:rotate(0deg);" data-rot="0">
+        <img src="images/portfolio/p09.jpg" alt="Blue flowers" draggable="false"/>
       </div>
   </div>
 
