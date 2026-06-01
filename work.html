@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="color-scheme" content="light only"/>
   <link rel="stylesheet" href="https://use.typekit.net/hba8axj.css">
-  <title>Manus — Work</title>
+  <title>Manus — Portfolio</title>
   <style>
+
 
     /*
       FONT STRATEGY
@@ -545,21 +546,100 @@
       .arrow-icon--large { display:none; }
     }
 
+  
+    /* ── Lookbook grid ── */
+    .lookbook-intro { font-size: var(--fs-32); font-weight: var(--fw-roman); line-height: var(--lh-32); max-width: 600px; margin-bottom: 80px; }
+    .lookbook-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 80px;
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+    .lb-item { overflow: hidden; position: relative; }
+    .lb-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .lb-item:hover img { transform: scale(1.03); }
+    /* Varied sizes — creates the lookbook feel */
+    .lb-item:nth-child(1)  { grid-column: span 7; grid-row: span 6; }
+    .lb-item:nth-child(2)  { grid-column: span 5; grid-row: span 4; }
+    .lb-item:nth-child(3)  { grid-column: span 5; grid-row: span 2; }
+    .lb-item:nth-child(4)  { grid-column: span 4; grid-row: span 5; }
+    .lb-item:nth-child(5)  { grid-column: span 4; grid-row: span 5; }
+    .lb-item:nth-child(6)  { grid-column: span 4; grid-row: span 5; }
+    .lb-item:nth-child(7)  { grid-column: span 8; grid-row: span 4; }
+    .lb-item:nth-child(8)  { grid-column: span 4; grid-row: span 4; }
+
+    .pdf-btn { display: inline-flex; align-items: center; gap: 12px; font-size: var(--fs-24); font-weight: var(--fw-roman); padding: 20px 32px; border: 1.5px solid currentColor; transition: opacity 0.2s; }
+    .pdf-btn:hover { opacity: 0.6; }
+
+    @media (max-width: 1024px) {
+      .lookbook-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
+      .lb-item { grid-column: span 1 !important; grid-row: span 1 !important; }
+      .lookbook-intro { font-size: 24px; line-height: 32px; margin-bottom: 40px; }
+    }
+    @media (max-width: 768px) {
+      .lookbook-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; gap: 8px; }
+    }
+
+  
+
+    /* ── Lookbook canvas ── */
+    .lb-header { padding: 80px 80px 40px; }
+    .lb-header h1 { font-size: var(--fs-48); font-weight: var(--fw-roman); line-height: var(--lh-48); margin-bottom: 16px; }
+    .lb-header p  { font-size: var(--fs-20); font-weight: var(--fw-roman); line-height: 28px; opacity: 0.6; }
+
+    .lb-canvas {
+      position: relative;
+      width: 100%;
+      min-height: 1600px;
+      overflow: hidden;
+      cursor: default;
+    }
+    .lb-card {
+      position: absolute;
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    }
+    .lb-card:active { cursor: grabbing; box-shadow: 0 8px 32px rgba(0,0,0,0.18); z-index: 100; }
+    .lb-card.is-dragging { transition: none; z-index: 200; }
+    .lb-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .pdf-btn { display: inline-flex; align-items: center; gap: 12px; font-size: var(--fs-24); font-weight: var(--fw-roman); padding: 20px 32px; border: 1.5px solid currentColor; transition: opacity 0.2s; margin: 60px 80px 80px; }
+    .pdf-btn:hover { opacity: 0.6; }
+
+    @media (max-width: 1024px) {
+      .lb-header { padding: 60px 40px 32px; }
+      .lb-canvas { min-height: 2400px; }
+      .lb-card { width: 42vw !important; }
+    }
+    @media (max-width: 768px) {
+      .lb-header { padding: 40px 20px 24px; }
+      .lb-card { width: 60vw !important; }
+      .pdf-btn { margin: 40px 20px; font-size: var(--fs-20); padding: 16px 24px; }
+    }
+
   </style>
 </head>
 <body>
+
 <div class="sticky-frame" aria-hidden="true"><svg preserveAspectRatio="xMinYMin meet" overflow="visible" viewBox="0 0 1407 707" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M1403.5 470.594V3.5H936.403L703.505 236.406V3.5H236.408L3.5 236.406V703.5H470.597L703.505 470.594V703.5H1170.59L1403.5 470.594Z" stroke="white" stroke-width="7" stroke-miterlimit="10"/>
 </svg></div>
-
-  <header style="position:sticky;top:0;z-index:300;mix-blend-mode:difference;width:100%;">
+<header style="position:sticky;top:0;z-index:300;mix-blend-mode:difference;width:100%;">
     <nav class="nav" role="navigation" aria-label="Main navigation">
       <div class="nav__logo"><a href="index.html" aria-label="Manus home"><a href="index.html" aria-label="Manus home"><svg width="114" height="20" viewBox="0 0 114 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#cn)"><path d="M96.9463 -0.00390625C99.3898 -0.00390625 101.308 0.553456 102.699 1.67578C104.091 2.79804 104.892 4.32382 105.086 6.26953H100.539C100.345 4.42072 99.1229 3.50003 96.8818 3.5C95.8705 3.5 95.0777 3.68624 94.4951 4.05762C93.9207 4.42898 93.629 4.94547 93.6289 5.60742C93.6289 5.82533 93.6699 6.02725 93.7588 6.21289C93.8477 6.3904 93.993 6.55225 94.2031 6.68945C94.4054 6.82672 94.6164 6.93169 94.8105 7.02051C95.0047 7.10932 95.288 7.19048 95.6602 7.2793C96.0323 7.36002 96.348 7.43249 96.623 7.49707C96.89 7.55358 97.2623 7.62605 97.7314 7.71484C98.2007 7.80365 98.5648 7.86855 98.8398 7.91699C99.6325 8.0865 100.28 8.23972 100.781 8.37695C101.283 8.51419 101.874 8.73232 102.537 9.03906C103.201 9.34589 103.727 9.69375 104.107 10.0732C104.488 10.4527 104.819 10.9693 105.103 11.623C105.386 12.277 105.531 13.0278 105.531 13.8916C105.531 15.6478 104.884 17.0569 103.597 18.1309L103.33 18.3652C101.866 19.4551 99.9317 20.0039 97.5449 20.0039C94.8346 20.0039 92.7147 19.4068 91.1855 18.2119C89.6563 17.0169 88.8146 15.3854 88.6689 13.3184H93.3301C93.6537 15.4096 95.0292 16.4512 97.4727 16.4512C98.5808 16.4511 99.4382 16.2577 100.045 15.8623C100.652 15.4667 100.951 14.9336 100.951 14.2715C100.951 14.0293 100.911 13.8031 100.822 13.6094C100.733 13.4156 100.587 13.2377 100.377 13.0762C100.167 12.9148 99.9801 12.7853 99.8184 12.6885C99.6565 12.5836 99.3814 12.4864 98.9854 12.3896C98.589 12.2928 98.2894 12.2203 98.0791 12.1719C97.8687 12.1234 97.5044 12.0595 97.0029 11.9707C96.5013 11.8819 96.1453 11.817 95.9512 11.7686C94.9157 11.5748 94.0743 11.373 93.4189 11.1631C92.7636 10.9532 92.0753 10.6459 91.3633 10.2422C90.6434 9.83046 90.1099 9.28136 89.7539 8.5791C89.3979 7.87664 89.2197 7.03682 89.2197 6.05176C89.2197 4.08166 89.9397 2.5794 91.3799 1.5459C92.82 0.512547 94.681 -0.00387878 96.9463 -0.00390625ZM74.8574 0.49707V12.2686C74.8574 14.5535 75.9015 15.7002 77.9971 15.7002C79.1541 15.7002 80.0847 15.3128 80.7725 14.5215C81.4601 13.7302 81.8076 12.6965 81.8076 11.4209V0.49707H86.8486V19.4307H82.002V17.2188H81.8887C81.201 18.1552 80.4404 18.8411 79.6152 19.2852C78.79 19.7292 77.7304 19.9472 76.4521 19.9473C74.3809 19.9473 72.7625 19.3258 71.6055 18.0986C70.4485 16.8714 69.8653 15.2082 69.8652 13.1172V0.49707H74.8574ZM38.6826 0.0205078C44.1036 0.0205092 46.8144 2.33759 46.8145 6.98828V14.7393C46.8145 15.377 46.9034 15.8132 47.0732 16.0312C47.2512 16.2573 47.6073 16.3147 48.1494 16.2178H48.2627L48.2461 19.2695C47.6556 19.5682 46.9437 19.7138 46.1025 19.7139C44.889 19.7139 43.9663 19.5196 43.3271 19.124C42.688 18.7365 42.2674 18.0823 42.0732 17.1699C40.8191 18.9705 38.8929 19.8672 36.3037 19.8672C34.3053 19.8672 32.7115 19.3661 31.5303 18.373C30.3491 17.3719 29.7579 16.0318 29.7578 14.1104C29.7578 12.1889 30.4296 10.7757 31.7725 9.86328C33.1156 8.95089 34.9771 8.32864 37.3721 7.98145C39.1439 7.73115 40.3579 7.48102 40.9971 7.22266C41.6361 6.96426 41.96 6.52799 41.96 5.8418C41.9599 5.15558 41.6762 4.60681 41.0938 4.20312C40.5193 3.79941 39.6858 3.59766 38.6016 3.59766C36.3119 3.59769 35.1147 4.48567 35.0176 6.25391H30.543C30.5915 4.46153 31.3037 2.96787 32.6709 1.78906C34.0383 0.610217 36.0449 0.0205078 38.6826 0.0205078ZM21.5781 -0.00390625C23.5523 -0.0038958 25.0813 0.594079 26.1816 1.78906C27.2739 2.98404 27.8242 4.62272 27.8242 6.71387V19.4473H22.792V7.56152C22.7919 5.39782 21.8208 4.31552 19.8711 4.31543C18.8112 4.31543 17.9857 4.68757 17.3789 5.43848C16.7722 6.18929 16.4727 7.19015 16.4727 8.44141V19.4395H11.4404V7.55371C11.4404 5.38997 10.4692 4.30779 8.51953 4.30762C7.50829 4.30762 6.69064 4.679 6.05957 5.42969C5.42849 6.18057 5.11233 7.18214 5.1123 8.43359V19.4307H0.0800781V0.49707H4.93457V3.05664H5.04785C6.25336 1.01396 8.09004 -0.00379431 10.5576 -0.00390625C11.7389 -0.00390625 12.7993 0.294819 13.7217 0.900391C14.6441 1.49789 15.3403 2.30517 15.8096 3.31445H15.8818C17.2654 1.10215 19.1589 -0.00390625 21.5781 -0.00390625ZM60.6338 -0.0117188C62.5836 -0.0116999 64.1616 0.649811 65.3672 1.96582C66.5727 3.28191 67.1797 4.98595 67.1797 7.07715V19.4395H62.1465V7.81152C62.1464 6.77827 61.8637 5.93854 61.2812 5.30078C60.7068 4.66291 59.897 4.33984 58.8613 4.33984C57.753 4.33995 56.8385 4.74417 56.1104 5.55957C55.3824 6.36695 55.0186 7.41685 55.0186 8.69238V19.4307H49.9863V0.49707H54.8975V3.08887H55.0107C56.3215 1.02185 58.1903 -0.0117188 60.6338 -0.0117188ZM113.08 14.0781V19.4307H107.684V14.0781H113.08ZM42.0889 9.93555C41.5467 10.2585 40.3733 10.6221 38.5771 11.042C37.1452 11.3649 36.1336 11.7196 35.543 12.1152C35.0262 12.4614 34.7324 12.9748 34.667 13.6602L34.6533 13.9561C34.6533 15.5547 35.6403 16.3544 37.6143 16.3545C38.9897 16.3545 40.0828 15.9908 40.8838 15.2803C41.6845 14.5698 42.0889 13.7222 42.0889 12.7373V9.93555Z" fill="white"/></g><defs><clipPath id="cn"><rect width="113.16" height="20"/></clipPath></defs></svg></a></a></div>
       <ul class="nav__list" role="list">
-          <li class="nav__item"><a href="collect.html">Collect</a></li>
-          <li class="nav__item"><a href="curate.html">Curate</a></li>
-          <li class="nav__item"><a href="create.html">Create</a></li>
-          <li class="nav__item"><a href="work.html">Work</a></li>
+                    <li class="nav__item"><a href="index.html#collect">Objects</a></li>
+          <li class="nav__item"><a href="index.html#curate">Interiors</a></li>
+          <li class="nav__item"><a href="index.html#create">Collection</a></li>
+          <li class="nav__item"><a href="work.html">Portfolio</a></li>
           <li class="nav__item"><a href="contact.html">Contact</a></li>
         <li class="nav__item nav__item--toggle">
           <button id="dm-btn-desktop" aria-label="Toggle dark mode"><svg class="sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
@@ -570,30 +650,62 @@
       </button>
     </nav>
   </header>
-
-  <div class="nav__mobile-menu" id="mobile-menu" role="menu">
-    <a href="collect.html" role="menuitem">Collect</a>
-    <a href="curate.html" role="menuitem">Curate</a>
-    <a href="create.html" role="menuitem">Create</a>
-    <a href="work.html" role="menuitem">Work</a>
+<div class="nav__mobile-menu" id="mobile-menu" role="menu">
+        <a href="index.html#collect" role="menuitem">Objects</a>
+    <a href="index.html#curate" role="menuitem">Interiors</a>
+    <a href="index.html#create" role="menuitem">Collection</a>
+    <a href="work.html" role="menuitem">Portfolio</a>
     <a href="contact.html" role="menuitem">Contact</a>
     <button id="dm-btn" role="menuitem"><svg class="sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:24px;height:24px;display:block;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:24px;height:24px;display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
   </div>
-  <div class="page-wrapper">
-  <div class="subpage">
 
-    <h1 class="sp-hero__heading">Work</h1>
-    <p class="sp-hero__body" style="margin-bottom:80px;">A selection of objects, interiors and pieces from The Manus Collection.</p>
-    <div class="work-grid">
-      <div class="work-item"><div class="work-item__img"><img src="images/interior.png" alt="Interior"/></div><p class="work-item__label">Curate</p><p class="work-item__title">Interior composition, Amsterdam</p></div>
-      <div class="work-item"><div class="work-item__img"><img src="images/shelves.png" alt="Objects"/></div><p class="work-item__label">Collect</p><p class="work-item__title">Object sourcing, private collection</p></div>
-      <div class="work-item"><div class="work-item__img"><img src="images/ceramic.png" alt="Manus Collection"/></div><p class="work-item__label">Create</p><p class="work-item__title">The Manus Collection, 2024</p></div>
-      <div class="work-item"><div class="work-item__img"><img src="images/hero.png" alt="Sourcing"/></div><p class="work-item__label">Collect</p><p class="work-item__title">Objects from markets across Europe</p></div>
-    </div>
-    <a href="portfolio/manus-portfolio.pdf" class="pdf-btn" download><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download portfolio PDF</a>
+
+  <div class="lb-header">
+    <h1>Portfolio</h1>
   </div>
+
+  <div class="lb-canvas" id="lbCanvas">
+      <div class="lb-card" style="width:340px;left:40px;top:60px;transform:rotate(0deg);" data-rot="-1.5">
+        <img src="images/portfolio/p01.jpg" alt="Landscape painting" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:560px;left:420px;top:20px;transform:rotate(0deg);" data-rot="0.8">
+        <img src="images/portfolio/p02.jpg" alt="Abstract tile wall" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:300px;left:1020px;top:80px;transform:rotate(0deg);" data-rot="-2.2">
+        <img src="images/portfolio/p03.jpg" alt="Artichokes on marble" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:360px;left:80px;top:480px;transform:rotate(0deg);" data-rot="1.2">
+        <img src="images/portfolio/p04.jpg" alt="Studio objects" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:500px;left:460px;top:380px;transform:rotate(0deg);" data-rot="-0.5">
+        <img src="images/portfolio/p05.jpg" alt="Restaurant dining room" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:380px;left:940px;top:400px;transform:rotate(0deg);" data-rot="1.8">
+        <img src="images/portfolio/p06.jpg" alt="Cozy restaurant interior" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:420px;left:100px;top:880px;transform:rotate(0deg);" data-rot="-1.0">
+        <img src="images/portfolio/p07.jpg" alt="Grey still life" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:300px;left:500px;top:820px;transform:rotate(0deg);" data-rot="2.5">
+        <img src="images/portfolio/p08.jpg" alt="Flower detail painting" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:360px;left:940px;top:780px;transform:rotate(0deg);" data-rot="-1.8">
+        <img src="images/portfolio/p09.jpg" alt="Blue flowers painting" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:320px;left:60px;top:1260px;transform:rotate(0deg);" data-rot="0.5">
+        <img src="images/portfolio/p10.jpg" alt="Concrete staircase" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:340px;left:460px;top:1200px;transform:rotate(0deg);" data-rot="-2.0">
+        <img src="images/portfolio/p11.jpg" alt="Black jug painting" draggable="false"/>
+      </div>
+      <div class="lb-card" style="width:360px;left:960px;top:1180px;transform:rotate(0deg);" data-rot="1.5">
+        <img src="images/portfolio/p12.jpg" alt="Blue flowers on easel" draggable="false"/>
+      </div>
   </div>
-  <footer class="footer" id="contact">
+
+  <a href="portfolio/manus-portfolio.pdf" class="pdf-btn" download><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download portfolio PDF</a>
+
+<footer class="footer" id="contact">
     <div class="footer__inner">
       <div class="footer__brand">
         <div class="footer__logo">
@@ -607,10 +719,10 @@
       </div>
       <nav class="footer__col" aria-label="Pages">
         <p class="footer__col-heading">PAGES</p>
-        <a href="collect.html" class="footer__col-link">Collect</a>
-        <a href="curate.html"  class="footer__col-link">Curate</a>
-        <a href="create.html"  class="footer__col-link">Create</a>
-        <a href="work.html"    class="footer__col-link">Work</a>
+        <a href="index.html#collect" class="footer__col-link">Objects</a>
+        <a href="index.html#curate" class="footer__col-link">Interiors</a>
+        <a href="index.html#create" class="footer__col-link">Collection</a>
+        <a href="work.html" class="footer__col-link">Portfolio</a>
         <a href="contact.html" class="footer__col-link">Contact</a>
       </nav>
       <nav class="footer__col" aria-label="Contact">
@@ -624,6 +736,52 @@
       </nav>
     </div>
   </footer>
+
+
+  <script>
+    // Drag-to-move cards
+    document.querySelectorAll('.lb-card').forEach(function(card) {
+      var startX, startY, origLeft, origTop, origZ = 1;
+
+      card.addEventListener('mousedown', startDrag);
+      card.addEventListener('touchstart', startDrag, {passive: true});
+
+      function startDrag(e) {
+        var touch = e.touches ? e.touches[0] : e;
+        startX = touch.clientX;
+        startY = touch.clientY;
+        origLeft = parseInt(card.style.left) || 0;
+        origTop  = parseInt(card.style.top)  || 0;
+        card.classList.add('is-dragging');
+        // Lift card above others
+        document.querySelectorAll('.lb-card').forEach(function(c){ c.style.zIndex = 1; });
+        card.style.zIndex = 50;
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup',   onUp);
+        document.addEventListener('touchmove', onMove, {passive:false});
+        document.addEventListener('touchend',  onUp);
+        if(e.cancelable) e.preventDefault();
+      }
+
+      function onMove(e) {
+        var touch = e.touches ? e.touches[0] : e;
+        var dx = touch.clientX - startX;
+        var dy = touch.clientY - startY;
+        card.style.left = (origLeft + dx) + 'px';
+        card.style.top  = (origTop  + dy) + 'px';
+        if(e.cancelable) e.preventDefault();
+      }
+
+      function onUp() {
+        card.classList.remove('is-dragging');
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup',   onUp);
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend',  onUp);
+      }
+    });
+  </script>
+
 <script>
 
     // Dark mode
@@ -680,5 +838,6 @@
       });
     }
   </script>
+
 </body>
 </html>
