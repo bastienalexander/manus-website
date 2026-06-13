@@ -23,6 +23,13 @@
 
     .sticky-frame { position:fixed; top:76px; left:50%; transform:translateX(-50%); width:min(calc(100vw - 80px),1407px); z-index:200; pointer-events:none; mix-blend-mode:difference; }
     .sticky-frame svg { width:100%; height:auto; display:block; }
+    @media (max-width:1024px) {
+      .sticky-frame { left:6px; transform:none; height:60svh; width:auto; }
+      .sticky-frame svg { height:100%; width:auto; }
+    }
+    @media (max-width:900px) and (orientation:landscape) {
+      .sticky-frame { display:none; }
+    }
 
     header { position:sticky; top:0; z-index:300; mix-blend-mode:difference; width:100%; }
     .nav { display:flex; align-items:center; justify-content:space-between; height:var(--nav-h); padding:10px 40px; background:transparent; }
@@ -148,15 +155,6 @@
           </svg>
         </div>
       </div>
-      <nav class="footer__col" aria-label="Pages">
-        <p class="footer__col-heading">PAGES</p>
-        <a href="index.html#collect" class="footer__col-link">Objects</a>
-        <a href="index.html#curate" class="footer__col-link">Interiors</a>
-        <a href="index.html#create" class="footer__col-link">Collection</a>
-        <a href="index.html#team" class="footer__col-link">Team</a>
-        <a href="work.html" class="footer__col-link">Portfolio</a>
-        <a href="index.html#contact" class="footer__col-link">Contact</a>
-      </nav>
       <nav class="footer__col" aria-label="Contact">
         <p class="footer__col-heading">CONTACT</p>
         <a href="mailto:studio@manusobjects.nl" class="footer__col-link">studio@manusobjects.nl</a>
