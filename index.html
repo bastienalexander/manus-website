@@ -51,14 +51,14 @@
     .arrow-icon svg { width: 100%; height: 100%; display: block; }
     .arrow-icon--large { width: 72px; height: 68px; flex-shrink: 0; mix-blend-mode: difference; display: inline-flex; }
 
-    .hero { display: flex; align-items: center; gap: 138px; min-height: 912px; padding: 40px 80px; }
-    .hero__text { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; flex-shrink: 0; }
+    .hero { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; min-height: 912px; padding: 40px 80px; }
+    .hero__text { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; grid-column: 1 / 6; }
     .hero__text-inner { padding: 20px 0; }
     .hero__heading { font-size: 72px; font-weight: var(--fw-roman); line-height: 1.0; }
     .hero__subheading { font-size: var(--f32); font-weight: var(--fw-roman); line-height: var(--lh32); margin-top: 16px; max-width: 480px; }
     .hero__arrow { width: 66px; height: 71px; flex-shrink: 0; margin-top: 4px; mix-blend-mode: difference; }
 
-    .hero__carousel { position: relative; width: 624px; height: 832px; flex-shrink: 0; overflow: hidden; }
+    .hero__carousel { position: relative; grid-column: 7 / -1; width: 100%; height: 832px; overflow: hidden; }
     .carousel__track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); }
     .carousel__slide { min-width: 100%; height: 100%; position: relative; }
     .carousel__slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -69,13 +69,14 @@
     .carousel__dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); border: none; cursor: pointer; padding: 0; transition: background 0.3s; }
     .carousel__dot.is-active { background: white; }
 
-    .sp-hero { display: flex; align-items: center; gap: 138px; min-height: 912px; padding: 80px; }
-    .sp-hero--reversed { flex-direction: row-reverse; }
-    .sp-hero__text { display: flex; flex-direction: column; justify-content: center; gap: 24px; flex-shrink: 0; max-width: 518px; }
+    .sp-hero { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: center; min-height: 912px; padding: 80px; }
+    .sp-hero--reversed .sp-hero__image { grid-column: 1 / 7; grid-row: 1; }
+    .sp-hero--reversed .sp-hero__text { grid-column: 8 / -1; grid-row: 1; }
+    .sp-hero__text { display: flex; flex-direction: column; justify-content: center; gap: 24px; grid-column: 1 / 6; }
     .sp-hero__heading { font-size: 36px; font-weight: var(--fw-roman); line-height: 42px; }
     .sp-hero__body { font-size: var(--f32); font-weight: var(--fw-roman); line-height: var(--lh32); }
     .sp-hero__body p + p { margin-top: 20px; }
-    .sp-hero__image { position: relative; width: 624px; height: 832px; flex-shrink: 0; overflow: hidden; }
+    .sp-hero__image { position: relative; grid-column: 7 / -1; width: 100%; height: 832px; overflow: hidden; }
     .sp-hero__image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
     .sp-quote { display: flex; align-items: center; min-height: 344px; padding: 120px 80px; }
@@ -111,12 +112,12 @@
       .nav__list { display: none; }
       .nav__hamburger { display: flex; }
       .nav__mobile-menu { display: flex; }
-      .hero, .sp-hero { flex-direction: column; min-height: auto; gap: 40px; padding: 40px; }
-      .sp-hero--reversed { flex-direction: column; }
+      .hero, .sp-hero { grid-template-columns: 1fr; min-height: auto; row-gap: 40px; column-gap: 0; padding: 40px; }
+      .hero__text, .hero__carousel, .sp-hero__text, .sp-hero__image { grid-column: 1; grid-row: auto; width: 100%; }
+      .sp-hero--reversed .sp-hero__image, .sp-hero--reversed .sp-hero__text { grid-column: 1; grid-row: auto; }
       .hero__heading { font-size: 48px; }
       .hero__subheading { font-size: 24px; max-width: 100%; }
-      .hero__carousel { width: 100%; height: 560px; }
-      .sp-hero__text { max-width: 100%; }
+      .hero__carousel { height: 560px; }
       .sp-hero__heading { font-size: 32px; line-height: 40px; }
       .sp-hero__body { font-size: 22px; line-height: 30px; }
       .sp-hero__image { width: 100%; height: 75vw; }
@@ -133,7 +134,7 @@
       .nav { padding: 10px 20px; }
       .nav__mobile-menu { padding: 0 20px; }
       .nav__mobile-menu.is-open { padding: 20px; }
-      .hero, .sp-hero { padding: 40px 20px; gap: 28px; }
+      .hero, .sp-hero { padding: 40px 20px; row-gap: 28px; }
       .hero__heading { font-size: clamp(36px,10vw,52px); line-height: 1.05; }
       .hero__carousel { aspect-ratio: 4/5; height: auto; }
       .sp-hero__image { height: 110vw; }
@@ -148,8 +149,9 @@
     }
     @media (max-width: 900px) and (orientation: landscape) {
       .sticky-frame { display: none; }
-      .hero { min-height: auto; padding: 40px; flex-direction: row; gap: 40px; }
-      .hero__carousel { height: 60vw; aspect-ratio: auto; }
+      .hero { min-height: auto; padding: 40px; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 0; }
+      .hero__text { grid-column: 1 / 6; }
+      .hero__carousel { grid-column: 7 / -1; height: 60vw; aspect-ratio: auto; }
     }
 
     .contact-ctas { display:flex; flex-direction:column; gap:12px; margin-top:32px; }
@@ -208,7 +210,7 @@
     <section class="hero" aria-label="Hero">
       <div class="hero__text">
         <div class="hero__text-inner">
-          <h1 class="hero__heading" style="font-size:72px;line-height:1.0;">Handpicked &amp;<br>handmade</h1>
+          <h1 class="hero__heading">Handpicked &amp;<br>handmade</h1>
           <p class="hero__subheading">art . vintage . interior design</p>
         </div>
         <div class="hero__arrow">
@@ -221,12 +223,12 @@
       </div>
       <div class="hero__carousel" aria-label="Image carousel" role="region">
         <div class="carousel__track" id="carouselTrack">
-          <div class="carousel__slide"><img src="images/hero.png" alt="Manus" /></div>
-          <div class="carousel__slide"><img src="images/shelves.png" alt="Objects" /></div>
-          <div class="carousel__slide"><img src="images/interior.png" alt="Interior" /></div>
+          <div class="carousel__slide"><img src="images/shelves.png" alt="Manus" /></div>
+          <div class="carousel__slide"><img src="images/curated.png" alt="Objects" /></div>
+          <div class="carousel__slide"><img src="images/lamp.png" alt="Interior" /></div>
           <div class="carousel__slide"><img src="images/ceramic.png" alt="Collection" /></div>
-          <div class="carousel__slide"><img src="images/hero.png" alt="Manus objects" /></div>
-          <div class="carousel__slide"><img src="images/interior.png" alt="Manus interior" /></div>
+          <div class="carousel__slide"><img src="images/madeleine.png" alt="Manus objects" /></div>
+          <div class="carousel__slide"><img src="images/hero.png" alt="Manus interior" /></div>
         </div>
         <button class="carousel__btn carousel__btn--prev" aria-label="Previous" id="carouselPrev">
           <svg width="36" height="34" viewBox="0 0 36 34" fill="none"><line x1="36" y1="17" x2="8" y2="17" stroke="white" stroke-width="2" stroke-linecap="square"/><line x1="8" y1="17" x2="20" y2="5" stroke="white" stroke-width="2" stroke-linecap="square"/><line x1="8" y1="17" x2="20" y2="29" stroke="white" stroke-width="2" stroke-linecap="square"/></svg>
@@ -238,6 +240,20 @@
       </div>
     </section>
 
+    <!-- ── COLLECT ── -->
+    <section class="sp-hero sp-hero--reversed" id="collect">
+      <div class="sp-hero__text">
+        <h2 class="sp-hero__heading">We source objects</h2>
+        <div class="sp-hero__body">
+          <p>Handpicked from markets, auctions, ateliers and private collections across the globe, we collect a wide variety of unique pieces. With these finds we add charisma to interiors.</p>
+          <p>We compose a bespoke blend of objects — granting every space its own one-of-a-kind personality.</p>
+        </div>
+      </div>
+      <div class="sp-hero__image">
+        <img src="images/objects.png" alt="Curating objects" />
+      </div>
+    </section>
+
     <!-- ── QUOTE 1 ── -->
     <section class="sp-quote">
       <div class="sp-quote__flex">
@@ -245,23 +261,8 @@
       </div>
     </section>
 
-
-    <!-- ── COLLECT ── -->
-    <section class="sp-hero" id="collect">
-      <div class="sp-hero__text">
-        <h2 class="sp-hero__heading">We source objects</h2>
-        <div class="sp-hero__body">
-          <p>Handpicked from markets, auctions, ateliers and private collections across the globe, we source a wide variety of unique pieces. With these finds we add charisma to interiors.</p>
-          <p>We compose a bespoke blend of objects — granting every space its own one-of-a-kind personality.</p>
-        </div>
-      </div>
-      <div class="sp-hero__image">
-        <img src="images/shelves.png" alt="Curated objects on shelving" />
-      </div>
-    </section>
-
     <!-- ── CURATE ── -->
-    <section class="sp-hero sp-hero--reversed" id="curate">
+    <section class="sp-hero" id="curate">
       <div class="sp-hero__text">
         <h2 class="sp-hero__heading">We curate interiors</h2>
         <div class="sp-hero__body">
@@ -270,7 +271,7 @@
         </div>
       </div>
       <div class="sp-hero__image">
-        <img src="images/interior.png" alt="A curated interior" />
+        <img src="images/curateintriors.png" alt="A curated interior" />
       </div>
     </section>
 
@@ -281,7 +282,7 @@
     </section>
 
     <!-- ── CREATE ── -->
-    <section class="sp-hero" id="create">
+    <section class="sp-hero sp-hero--reversed" id="create">
       <div class="sp-hero__text">
         <h2 class="sp-hero__heading">We create our own collection</h2>
         <div class="sp-hero__body">
@@ -290,12 +291,12 @@
         </div>
       </div>
       <div class="sp-hero__image">
-        <img src="images/ceramic.png" alt="Manus Collection object" />
+        <img src="images/collection.png" alt="Manus Collection object" />
       </div>
     </section>
 
     <!-- ── TEAM ── -->
-    <section class="sp-hero sp-hero--reversed" id="team">
+    <section class="sp-hero" id="team">
       <div class="sp-hero__text">
         <h2 class="sp-hero__heading">We are a multidisciplinary team of specialists</h2>
         <div class="sp-hero__body">
@@ -303,7 +304,7 @@
         </div>
       </div>
       <div class="sp-hero__image">
-        <img src="images/tes.jpg" alt="Tessa, founder of Manus" />
+        <img src="images/team.png" alt="Our team" />
       </div>
     </section>
 
@@ -333,7 +334,7 @@
 
 
     <!-- ── CONTACT ── -->
-    <section class="sp-hero" id="contact">
+    <section class="sp-hero sp-hero--reversed" id="contact">
       <div class="sp-hero__text">
         <h2 class="sp-hero__heading">Contact</h2>
         <div class="sp-hero__body">
@@ -353,7 +354,7 @@
         </div>
       </div>
       <div class="sp-hero__image">
-        <img src="images/contact-new.jpg" alt="Manus interior" />
+        <img src="images/contact.png" alt="Manus contact" />
       </div>
     </section>
   </div>
