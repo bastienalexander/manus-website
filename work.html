@@ -49,18 +49,10 @@
     .nav__mobile-menu a { font-size:var(--f24); color:white; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.1); display:block; }
     #dm-btn { background:none; border:none; cursor:pointer; padding:12px 0; color:white; width:100%; text-align:left; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; }
 
-    /* 12-column grid with varied image sizes */
-    .grid { display:grid; grid-template-columns:repeat(12,1fr); grid-auto-rows:175px; grid-auto-flow:row dense; gap:8px; padding:40px 80px 120px; }
-    .pg { overflow:hidden; grid-row: span 2; }
-    .pg img { width:100%; height:100%; object-fit:cover; display:block; }
-    .pg--3 { grid-column:span 3; }
-    .pg--4 { grid-column:span 4; }
-    .pg--5 { grid-column:span 5; }
-    .pg--6 { grid-column:span 6; }
-    .pg--7 { grid-column:span 7; }
-    .pg--8 { grid-column:span 8; }
-    .pg--12 { grid-column:span 12; }
-    .pg--tall { grid-row:span 2; }
+    /* JS masonry — chronological order (p01 top-left, p02 next, etc.) */
+    .grid { position:relative; padding:40px 80px 120px; }
+    .pg { position:absolute; box-sizing:border-box; }
+    .pg img { width:100%; height:auto; display:block; }
 
     /* Footer */
     .footer { background:var(--bg-footer); padding:64px 80px 24px; width:100%; }
@@ -76,9 +68,7 @@
 
     @media (max-width:1024px) {
       .nav__list { display:none; } .nav__hamburger { display:flex; } .nav__mobile-menu { display:flex; }
-      .grid { grid-template-columns:repeat(3,1fr); grid-auto-rows:140px; grid-auto-flow:row dense; gap:6px; padding:40px 40px 80px; }
-      .pg--3,.pg--4,.pg--5,.pg--6,.pg--7,.pg--8,.pg--12 { grid-column:span 1; }
-      .pg--tall { grid-row:span 2; }
+      .grid { padding:40px 40px 80px; }
       .footer { padding:48px 40px 24px; }
       .footer__inner { flex-wrap:wrap; gap:24px; }
       .footer__brand { width:100%; padding-right:0; flex-direction:row; align-items:center; min-height:auto; }
@@ -86,7 +76,7 @@
     }
     @media (max-width:768px) {
       .nav { padding:10px 20px; } .nav__mobile-menu { padding:0 20px; } .nav__mobile-menu.is-open { padding:20px; }
-      .grid { grid-template-columns:repeat(2,1fr); grid-auto-rows:120px; grid-auto-flow:row dense; gap:4px; padding:20px 20px 60px; }
+      .grid { padding:20px 20px 60px; }
       .footer { padding:48px 20px 24px; }
       .footer__brand { flex-direction:column; gap:24px; }
       .footer__col { width:100%; }
@@ -274,6 +264,46 @@
         });
       }
     }
+    // Masonry — left-to-right reading order (p01, p02, p03...)
+    (function() {
+      const grid = document.querySelector('.grid');
+      if (!grid) return;
+      function cfg() {
+        const w = window.innerWidth;
+        if (w <= 768)  return { cols: 2, gap: 4 };
+        if (w <= 1024) return { cols: 3, gap: 6 };
+        return { cols: 4, gap: 8 };
+      }
+      function layout() {
+        const { cols, gap } = cfg();
+        const cs = getComputedStyle(grid);
+        const pl = parseFloat(cs.paddingLeft);
+        const pt = parseFloat(cs.paddingTop);
+        const pb = parseFloat(cs.paddingBottom);
+        const innerW = grid.clientWidth - pl - parseFloat(cs.paddingRight);
+        const colW = (innerW - gap * (cols - 1)) / cols;
+        const hs = new Array(cols).fill(0);
+        const items = grid.querySelectorAll('.pg');
+        items.forEach(function(item) {
+          const col = hs.indexOf(Math.min.apply(null, hs));
+          item.style.width = colW + 'px';
+          item.style.left = (pl + col * (colW + gap)) + 'px';
+          item.style.top  = (pt + hs[col]) + 'px';
+          hs[col] += item.offsetHeight + gap;
+        });
+        grid.style.height = (pt + Math.max.apply(null, hs) - gap + pb) + 'px';
+      }
+      layout();
+      grid.querySelectorAll('img').forEach(function(img) {
+        if (!img.complete) img.addEventListener('load', layout);
+      });
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(layout, 120);
+      });
+    })();
+
     const hamburger = document.querySelector('.nav__hamburger');
     const mobileMenu = document.querySelector('.nav__mobile-menu');
     if (hamburger && mobileMenu) {

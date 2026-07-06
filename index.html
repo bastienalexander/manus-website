@@ -122,7 +122,7 @@
       .sp-hero__heading { font-size: 32px; line-height: 40px; }
       .sp-hero__body { font-size: 22px; line-height: 30px; }
       .sp-hero__image { width: 100%; height: 75vw; }
-      .sp-hero__image img { position: static; width: 100%; height: 100%; object-fit: cover; }
+      .sp-hero__image > img { position: static; width: 100%; height: 100%; object-fit: cover; }
       .sp-quote { min-height: auto; padding: 60px 40px 100px; }
       .sp-quote__text { font-size: 32px; line-height: 40px; }
       .about-grid { grid-template-columns: repeat(2,1fr); padding: 60px 40px 80px; }
@@ -399,93 +399,83 @@
 
   
 <script>
-    // Carousel
-    (function() {
-      const track = document.getElementById('carouselTrack');
-      const prevBtn = document.getElementById('carouselPrev');
-      const nextBtn = document.getElementById('carouselNext');
-      const dotsContainer = document.getElementById('carouselDots');
+    // Infinite loop carousel factory
+    function makeCarousel(trackId, prevId, nextId, dotsId) {
+      const track = document.getElementById(trackId);
+      const prevBtn = document.getElementById(prevId);
+      const nextBtn = document.getElementById(nextId);
+      const dotsContainer = document.getElementById(dotsId);
       if (!track) return;
-      const slides = track.querySelectorAll('.carousel__slide');
-      let current = 0;
-      const total = slides.length;
-      slides.forEach(function(_, i) {
-        const dot = document.createElement('button');
-        dot.className = 'carousel__dot' + (i === 0 ? ' is-active' : '');
-        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-        dot.addEventListener('click', function() { goTo(i); });
-        dotsContainer.appendChild(dot);
-      });
-      function updateDots() {
-        dotsContainer.querySelectorAll('.carousel__dot').forEach(function(d, i) {
-          d.classList.toggle('is-active', i === current);
-        });
-      }
-      function goTo(index) {
-        current = (index + total) % total;
-        track.style.transform = 'translateX(-' + (current * 100) + '%)';
-        updateDots();
-      }
-      prevBtn.addEventListener('click', function() { goTo(current - 1); });
-      nextBtn.addEventListener('click', function() { goTo(current + 1); });
-      let startX = 0;
-      track.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, {passive: true});
-      track.addEventListener('touchend', function(e) {
-        const diff = startX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
-      });
-      let timer = setInterval(function() { goTo(current + 1); }, 5000);
-      [prevBtn, nextBtn].forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          clearInterval(timer);
-          timer = setInterval(function() { goTo(current + 1); }, 5000);
-        });
-      });
-    })();
 
-    // Collection Carousel
-    (function() {
-      const track = document.getElementById('colTrack');
-      const prevBtn = document.getElementById('colPrev');
-      const nextBtn = document.getElementById('colNext');
-      const dotsContainer = document.getElementById('colDots');
-      if (!track) return;
-      const slides = track.querySelectorAll('.carousel__slide');
+      const origSlides = Array.from(track.querySelectorAll('.carousel__slide'));
+      const total = origSlides.length;
+      // Clone all slides and append — enables seamless forward loop
+      origSlides.forEach(function(s) { track.appendChild(s.cloneNode(true)); });
+
       let current = 0;
-      const total = slides.length;
-      slides.forEach(function(_, i) {
+      let busy = false;
+
+      origSlides.forEach(function(_, i) {
         const dot = document.createElement('button');
         dot.className = 'carousel__dot' + (i === 0 ? ' is-active' : '');
         dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
         dot.addEventListener('click', function() { goTo(i); });
         dotsContainer.appendChild(dot);
       });
+
       function updateDots() {
         dotsContainer.querySelectorAll('.carousel__dot').forEach(function(d, i) {
-          d.classList.toggle('is-active', i === current);
+          d.classList.toggle('is-active', i === current % total);
         });
       }
-      function goTo(index) {
-        current = (index + total) % total;
-        track.style.transform = 'translateX(-' + (current * 100) + '%)';
-        updateDots();
+
+      function setPos(idx, animated) {
+        track.style.transition = animated ? '' : 'none';
+        track.style.transform = 'translateX(-' + (idx * 100) + '%)';
       }
-      prevBtn.addEventListener('click', function() { goTo(current - 1); });
-      nextBtn.addEventListener('click', function() { goTo(current + 1); });
+
+      function goTo(idx) {
+        if (busy) return;
+        busy = true;
+        current = idx;
+        setPos(current, true);
+        updateDots();
+        setTimeout(function() {
+          if (current >= total) {
+            current -= total;
+            setPos(current, false);
+          }
+          busy = false;
+        }, 650);
+      }
+
+      function goPrev() {
+        if (busy) return;
+        if (current === 0) {
+          // Jump instantly to the clone of slide 0 (= position total), then animate left
+          setPos(total, false);
+          setTimeout(function() { goTo(total - 1); }, 20);
+        } else {
+          goTo(current - 1);
+        }
+      }
+
+      prevBtn.addEventListener('click', function() { goPrev(); resetTimer(); });
+      nextBtn.addEventListener('click', function() { goTo(current + 1); resetTimer(); });
+
       let startX = 0;
       track.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, {passive: true});
       track.addEventListener('touchend', function(e) {
         const diff = startX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+        if (Math.abs(diff) > 40) { diff > 0 ? goTo(current + 1) : goPrev(); resetTimer(); }
       });
+
       let timer = setInterval(function() { goTo(current + 1); }, 5000);
-      [prevBtn, nextBtn].forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          clearInterval(timer);
-          timer = setInterval(function() { goTo(current + 1); }, 5000);
-        });
-      });
-    })();
+      function resetTimer() { clearInterval(timer); timer = setInterval(function() { goTo(current + 1); }, 5000); }
+    }
+
+    makeCarousel('carouselTrack', 'carouselPrev', 'carouselNext', 'carouselDots');
+    makeCarousel('colTrack', 'colPrev', 'colNext', 'colDots');
   </script>
 <script>
 
